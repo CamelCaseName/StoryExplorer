@@ -105,7 +105,7 @@ namespace n_settings {
 	//retrieveing
 	settings_entry get_setting(const std::string& name);
 	//setting
-	void set_setting(const std::string& name, const settings_entry& setting);
+	void add_setting(const std::string& name, const settings_entry& setting);
 
 	//saving
 	//reading from save

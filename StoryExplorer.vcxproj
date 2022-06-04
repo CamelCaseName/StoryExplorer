@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="color.hpp" />
     <ClInclude Include="command_parser.hpp" />
+    <ClInclude Include="eek_parser.hpp" />
     <ClInclude Include="parser.hpp" />
     <ClInclude Include="point.hpp" />
     <ClInclude Include="Resource.h" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="command_parser.cpp" />
+    <ClCompile Include="eek_parser.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="StoryExplorer.cpp" />
   </ItemGroup>

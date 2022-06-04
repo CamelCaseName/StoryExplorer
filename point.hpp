@@ -10,15 +10,15 @@ typedef struct point {
 	struct point& operator+=(const double& k) { x += k; y += k; return *this; }
 	struct point& operator-=(const point& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
 	struct point& operator-=(const double& k) { x -= k; y -= k; return *this; }
-}point;
+} point;
 
 //operator overloading for our point
-point operator+(point lhs, const point& rhs) { return lhs += rhs; }
-point operator+(point lhs, const double k) { return lhs += k; }
-point operator+(const double k, point rhs) { return rhs += k; }
-point operator-(point lhs, const point& rhs) { return lhs -= rhs; }
-point operator-(point lhs, const double k) { return lhs -= k; }
-point operator-(const double k, point rhs) { return rhs -= k; }
+inline point operator+(point lhs, const point& rhs) { return lhs += rhs; }
+inline point operator+(point lhs, const double k) { return lhs += k; }
+inline point operator+(const double k, point rhs) { return rhs += k; }
+inline point operator-(point lhs, const point& rhs) { return lhs -= rhs; }
+inline point operator-(point lhs, const double k) { return lhs -= k; }
+inline point operator-(const double k, point rhs) { return rhs -= k; }
 
 
 

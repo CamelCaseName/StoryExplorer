@@ -1,5 +1,5 @@
 #ifndef PARSER_ABSTRACT_H
-#define PARSER_ABSTARCT_H
+#define PARSER_ABSTRACT_H
 
 #include <string>
 #include <vector>
@@ -35,9 +35,12 @@ typedef struct node_data {
 
 class parser {
 public:
-	virtual node_data parse(std::string) = 0;
+	//pure virtual parse method definition to enable inheritance and have the framework still work with the rest
+	virtual node_data parse(std::string text) = 0;
+	//string with the file extenstion this parser wants to work with. can also be a custom key
+	const std::string preferred_extension;
 private:
 	node_data data;
 };
-
+ 
 #endif // !PARSER_ABSTRACT_H

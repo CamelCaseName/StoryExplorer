@@ -2,6 +2,7 @@
 #define COLOR_H
 #include <cstdint>
 
+#pragma pack(push)
 #pragma pack(1)
 typedef struct color {
 	uint8_t a;
@@ -24,4 +25,5 @@ typedef struct color {
 	}
 
 } color;
+#pragma pack(pop)
 #endif // !COLOR_H

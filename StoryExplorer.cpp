@@ -17,6 +17,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 bool startup(wchar_t*);
 void cleanup();
+void display();
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -38,7 +39,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	//test for commands
+	//and prepare first image to be displayed
 	startup(lpCmdLine);
+
 
 	HACCEL hAccelTable = LoadAcceleratorsW(hInstance, MAKEINTRESOURCE(IDC_STORYEXPLORER));
 	MSG msg;
@@ -62,10 +65,17 @@ void cleanup() {
 	command_parser::cleanup();
 }
 
+void display() {
+
+}
 
 bool startup(wchar_t* cmd_line) {
+	//create instances of the file parsers we have so far
+	parsers.push_back((parser*)(new eek_parser()));
+
 	if (*cmd_line) {
 		if (command_parser::parse(cmd_line))
+
 			return true;
 	}
 	return false;
@@ -153,6 +163,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	break;
 	case WM_PAINT:
 	{
+			//display();
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		// TODO: Add any drawing code that uses hdc here...

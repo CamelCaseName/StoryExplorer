@@ -1,5 +1,5 @@
 #include "command_parser.hpp"
-
+using namespace n_settings;
 
 //array of arguments
 std::string* command_parser::argv = nullptr;
@@ -24,6 +24,7 @@ int command_parser::parse(wchar_t* cmd) {
 			std::cout << "File not found" << std::endl;
 		}
 		//file exists, we can save its location to the settings
+		add_setting("path", settings_entry("path", argv[0]));
 	}
 
 	return argc;
