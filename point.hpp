@@ -20,4 +20,6 @@ point operator-(point lhs, const point& rhs) { return lhs -= rhs; }
 point operator-(point lhs, const double k) { return lhs -= k; }
 point operator-(const double k, point rhs) { return rhs -= k; }
 
+
+
 #endif // !POINT_H

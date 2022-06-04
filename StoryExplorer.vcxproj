@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="color.hpp" />
     <ClInclude Include="command_parser.hpp" />
     <ClInclude Include="parser.hpp" />
     <ClInclude Include="point.hpp" />
