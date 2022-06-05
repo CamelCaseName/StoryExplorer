@@ -18,6 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cmd_parser\command_parser.hpp" />
+    <ClInclude Include="libs\simdjson.h" />
+    <ClInclude Include="main\StoryExplorer.hpp" />
+    <ClInclude Include="parsers\eek_parser.hpp" />
+    <ClInclude Include="parsers\parser.hpp" />
+    <ClInclude Include="settings\settings.hpp" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="utils\color.hpp" />
+    <ClInclude Include="utils\point.hpp" />
+    <ClInclude Include="utils\util.hpp" />
+    <ClInclude Include="windows\basewin.hpp" />
+    <ClInclude Include="windows\renderer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cmd_parser\command_parser.cpp" />
+    <ClCompile Include="libs\simdjson.cpp" />
+    <ClCompile Include="main\StoryExplorer.cpp" />
+    <ClCompile Include="parsers\eek_parser.cpp" />
+    <ClCompile Include="settings\settings.cpp" />
+    <ClCompile Include="windows\renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="main\small.ico" />
+    <Image Include="main\StoryExplorer.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -140,31 +166,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="color.hpp" />
-    <ClInclude Include="command_parser.hpp" />
-    <ClInclude Include="eek_parser.hpp" />
-    <ClInclude Include="parser.hpp" />
-    <ClInclude Include="point.hpp" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="settings.hpp" />
-    <ClInclude Include="StoryExplorer.hpp" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="util.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="command_parser.cpp" />
-    <ClCompile Include="eek_parser.cpp" />
-    <ClCompile Include="settings.cpp" />
-    <ClCompile Include="StoryExplorer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="StoryExplorer.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico" />
-    <Image Include="StoryExplorer.ico" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

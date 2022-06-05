@@ -4,7 +4,7 @@
 using std::string;
 //dsiable warning 4996 for the codecvt lib as it is marked deprecated, but there is actually no alternative so uhh
 #pragma warning (push)
-#pragma warning (disable:4996)
+#pragma warning (disable:4996) 
 #include <codecvt>
 #include <locale>
 #include <filesystem> // C++17#
@@ -36,6 +36,7 @@ namespace util {
 			}
 		}
 	}
+#pragma warning (pop) //enable 4996 deprecated again
 
 	inline string read_file_to_string(const string& path) {
 		//vars we need, filesize and result strign
@@ -43,7 +44,8 @@ namespace util {
 		std::wstring res;
 
 		//get fd and check for error
-		FILE* input_file = fopen(path.c_str(), "r");
+		FILE* input_file;
+		fopen_s(&input_file, path.c_str(), "r");
 		if (input_file == nullptr) {
 			perror("File doesn't exist");
 		}
@@ -52,14 +54,20 @@ namespace util {
 			stat(path.c_str(), &sb);
 			res.resize(sb.st_size);
 			//read in file contents
-			fread(const_cast<wchar_t*>(res.data()), sb.st_size, 1, input_file);
+			fread_s(const_cast<wchar_t*>(res.data()), sb.st_size, sb.st_size, 1, input_file);
 			//close again
 			fclose(input_file);
 		}
 
 		return ws_to_s(res);
 	}
+
+	template <class T> void SafeRelease(T** ppT) {
+		if (*ppT) {
+			(*ppT)->Release();
+			*ppT = NULL;
+		}
+	}
 }
 
-#pragma warning (pop)
 #endif // !UTILS_H

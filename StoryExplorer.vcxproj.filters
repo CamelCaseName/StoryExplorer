@@ -13,63 +13,73 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{27ed5c3e-454d-442e-9090-e57f715471d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="windows\basewin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\color.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\util.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings\settings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsers\eek_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsers\parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main\StoryExplorer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd_parser\command_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StoryExplorer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="command_parser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="settings.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="parser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="point.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="color.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="eek_parser.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="libs\simdjson.h">
+      <Filter>libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StoryExplorer.cpp">
+    <ClCompile Include="windows\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="command_parser.cpp">
+    <ClCompile Include="settings\settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="settings.cpp">
+    <ClCompile Include="parsers\eek_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eek_parser.cpp">
+    <ClCompile Include="main\StoryExplorer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd_parser\command_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\simdjson.cpp">
+      <Filter>libs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="StoryExplorer.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
+    <Image Include="main\small.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="StoryExplorer.ico">
+    <Image Include="main\StoryExplorer.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -10,8 +10,8 @@
 #include <iostream>
 #include <string>
 using std::string;
-#include "util.hpp"
-#include "settings.hpp"
+#include "..\\settings\settings.hpp"
+#include "..\\utils\util.hpp"
 //#include "libs/simdjson.h"
 
 namespace command_parser {

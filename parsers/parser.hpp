@@ -5,9 +5,9 @@
 using std::string;
 #include <vector>
 #include <math.h>
-#include "point.hpp"
-#include "color.hpp"
-#include "StoryExplorer.hpp"
+#include "..\\utils\color.hpp"
+#include "..\\utils\point.hpp"
+#include "..\\main\StoryExplorer.hpp"
 
 
 //a struct defining a node, 
