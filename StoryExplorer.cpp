@@ -18,6 +18,8 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 bool startup(wchar_t*);
 void cleanup();
 void display();
+std::vector<parser*> parsers;
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -62,7 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 }
 
 void cleanup() {
-	command_parser::cleanup();
+	cmd_cleanup();
 }
 
 void display() {
@@ -74,10 +76,24 @@ bool startup(wchar_t* cmd_line) {
 	parsers.push_back((parser*)(new eek_parser()));
 
 	if (*cmd_line) {
-		if (command_parser::parse(cmd_line))
+		if (parse(cmd_line)) {
 
-			return true;
+			string file_extension = extension(get_setting("path"));
+
+			//find fitting parser
+			for (auto p : parsers) {
+				if (p->preferred_extension(file_extension)) {
+					//read in file
+					string text = read_file_to_string(get_setting("path"));
+					//do the parsing
+					node_data nodes = p->parse(text);
+
+					return true;
+				}
+			}
+		}
 	}
+	//catch all return
 	return false;
 }
 
@@ -163,7 +179,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	break;
 	case WM_PAINT:
 	{
-			//display();
+		//display();
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		// TODO: Add any drawing code that uses hdc here...

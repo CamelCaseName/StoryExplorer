@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include <string>
+using std::string;
 #include <typeinfo>
 #include <map>
 
@@ -23,7 +24,7 @@ namespace n_settings {
 		type data_type;
 		const void* data;
 	public:
-		std::string name;
+		string name;
 
 		//converting this to the value we want, only applicable if our type is int, else we throw
 		operator int() {
@@ -46,8 +47,8 @@ namespace n_settings {
 			if (data_type == type::float_type) return *(float*)data;
 			else throw std::bad_cast();
 		}
-		operator std::string() {
-			if (data_type == type::string_type) return *(std::string*)data;
+		operator string() {
+			if (data_type == type::string_type) return *(string*)data;
 			else throw std::bad_cast();
 		}
 		operator bool() {
@@ -63,37 +64,37 @@ namespace n_settings {
 		}
 
 		//create settings from type we want
-		settings_entry(const std::string& _name, int* _data) {
+		settings_entry(const string& _name, int* _data) {
 			name = _name;
 			data_type = type::int_type;
 			data = (void*)_data;
 		}
-		settings_entry(const std::string& _name, long* _data) {
+		settings_entry(const string& _name, long* _data) {
 			name = _name;
 			data_type = type::long_type;
 			data = (void*)_data;
 		}
-		settings_entry(const std::string& _name, long long* _data) {
+		settings_entry(const string& _name, long long* _data) {
 			name = _name;
 			data_type = type::long_long_type;
 			data = (void*)_data;
 		}
-		settings_entry(const std::string& _name, double* _data) {
+		settings_entry(const string& _name, double* _data) {
 			name = _name;
 			data_type = type::double_type;
 			data = (void*)_data;
 		}
-		settings_entry(const std::string& _name, float* _data) {
+		settings_entry(const string& _name, float* _data) {
 			name = _name;
 			data_type = type::float_type;
 			data = (void*)_data;
 		}
-		settings_entry(const std::string& _name, const std::string& _data) {
+		settings_entry(const string& _name, const string& _data) {
 			name = _name;
 			data_type = type::string_type;
 			data = (void*)&_data;
 		}
-		settings_entry(const std::string& _name, bool* _data) {
+		settings_entry(const string& _name, bool* _data) {
 			name = _name;
 			data_type = type::bool_type;
 			data = (void*)_data;
@@ -101,11 +102,11 @@ namespace n_settings {
 	};
 
 	//map of all settings, private
-	namespace { std::map<std::string, settings_entry> settings_map; }
+	namespace { std::map<string, settings_entry> settings_map; }
 	//retrieveing
-	settings_entry get_setting(const std::string& name);
+	settings_entry get_setting(const string& name);
 	//setting
-	void add_setting(const std::string& name, const settings_entry& setting);
+	void add_setting(const string& name, const settings_entry& setting);
 
 	//saving
 	//reading from save

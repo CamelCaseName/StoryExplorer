@@ -11,17 +11,24 @@
 #include <tchar.h>
 #include <vector>
 
+
+//define to get rid of the deprecationw arning as there is no suitable alternative, even in c++20
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING //doesnt work but whatever, standard says so. will also disable warning 4996 for the codecvt lib
+
 //cpp headers 
 #include "targetver.h"
+#include "parser.hpp"
 #include "command_parser.hpp"
 #include "eek_parser.hpp"
-#include "parser.hpp"
 
 
 //stuff
 #include "resource.h"
 
-std::vector<parser*> parsers;
+using namespace command_parser;
+using namespace n_settings;
+using namespace util;
+using std::string;
 
 
 #endif // !STORYEXPLORER_H
