@@ -5,9 +5,10 @@
 using std::string;
 #include <vector>
 #include <math.h>
-#include "..\\utils\color.hpp"
 #include "..\\utils\point.hpp"
+#include "..\\utils\color.hpp"
 #include "..\\main\StoryExplorer.hpp"
+using namespace n_point;
 
 
 //a struct defining a node, 

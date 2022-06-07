@@ -97,5 +97,5 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		Resize();
 		return 0;
 	}
-	return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+	return DefWindowProcW(m_hwnd, uMsg, wParam, lParam);
 }

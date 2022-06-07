@@ -21,7 +21,6 @@ int command_parser::parse(wchar_t* cmd) {
 				argv[i] = ws_to_s(std::wstring(argvwch[i]));
 			}
 
-
 			std::ifstream file(argv[0]);
 			if (!file.is_open()) {
 				std::cout << "File not found" << std::endl;
