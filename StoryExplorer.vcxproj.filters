@@ -54,6 +54,9 @@
     <ClInclude Include="libs\simdjson.h">
       <Filter>libs</Filter>
     </ClInclude>
+    <ClInclude Include="utils\node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windows\renderer.cpp">

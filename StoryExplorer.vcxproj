@@ -27,6 +27,7 @@
     <ClInclude Include="settings\settings.hpp" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="utils\color.hpp" />
+    <ClInclude Include="utils\node.hpp" />
     <ClInclude Include="utils\point.hpp" />
     <ClInclude Include="utils\util.hpp" />
     <ClInclude Include="windows\basewin.hpp" />

@@ -3,7 +3,7 @@
 
 
 template <class DERIVED_TYPE>
-class BaseWindow {
+class base_window {
 public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		DERIVED_TYPE* pThis = NULL;
@@ -11,24 +11,24 @@ public:
 		if (uMsg == WM_NCCREATE) {
 			CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
 			pThis = (DERIVED_TYPE*)pCreate->lpCreateParams;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
+			SetWindowLongPtrW(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
 
-			pThis->m_hwnd = hwnd;
+			pThis->hwnd = hwnd;
 		}
 		else {
-			pThis = (DERIVED_TYPE*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			pThis = (DERIVED_TYPE*)GetWindowLongPtrW(hwnd, GWLP_USERDATA);
 		}
 		if (pThis) {
 			return pThis->HandleMessage(uMsg, wParam, lParam);
 		}
 		else {
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+			return DefWindowProcW(hwnd, uMsg, wParam, lParam);
 		}
 	}
 
-	BaseWindow() : m_hwnd(NULL) {}
+	base_window() : hwnd(NULL) {}
 
-	BOOL Create(
+	BOOL create(
 		PCWSTR lpWindowName,
 		DWORD dwStyle,
 		DWORD dwExStyle = 0,
@@ -42,29 +42,29 @@ public:
 		WNDCLASS wc = { 0 };
 
 		wc.lpfnWndProc = DERIVED_TYPE::WindowProc;
-		wc.hInstance = GetModuleHandle(NULL);
+		wc.hInstance = GetModuleHandleW(NULL);
 		wc.hIcon = LoadIconW(wc.hInstance, L"StoryExplorer.ico");
 		wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-		wc.lpszClassName = ClassName();
+		wc.lpszClassName = class_name();
 
-		RegisterClass(&wc);
+		RegisterClassW(&wc);
 
-		m_hwnd = CreateWindowEx(
-			dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
-			nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
+		hwnd = CreateWindowExW(
+			dwExStyle, class_name(), lpWindowName, dwStyle, x, y,
+			nWidth, nHeight, hWndParent, hMenu, GetModuleHandleW(NULL), this
 		);
 
-		return (m_hwnd ? TRUE : FALSE);
+		return (hwnd ? TRUE : FALSE);
 	}
 
-	HWND Window() const { return m_hwnd; }
+	HWND window() const { return hwnd; }
 
 protected:
 
-	virtual PCWSTR  ClassName() const = 0;
+	virtual PCWSTR  class_name() const = 0;
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 
-	HWND m_hwnd;
+	HWND hwnd;
 };
 
 #endif // !BASEWIN_H

@@ -1,6 +1,9 @@
 #ifndef COLOR_H
 #define COLOR_H
 #include <cstdint>
+//graphics header, linked as library search record
+#include <d2d1.h>
+#pragma comment(lib, "d2d1")
 
 #pragma pack(push)
 #pragma pack(1)
@@ -22,6 +25,10 @@ typedef struct color {
 		b = num & 0xff;*/
 		*(int*)this = num;
 		return *this;
+	}
+
+	operator D2D1_COLOR_F() {
+		return { static_cast<float>(r / 255),static_cast<float>(g / 255),static_cast<float>(b / 255),static_cast<float>(a / 255) };
 	}
 
 } color;

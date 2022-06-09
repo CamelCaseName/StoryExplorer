@@ -1,13 +1,22 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include <string>
-using std::string;
-//dsiable warning 4996 for the codecvt lib as it is marked deprecated, but there is actually no alternative so uhh
-#pragma warning (push)
-#pragma warning (disable:4996) 
 #include <codecvt>
 #include <locale>
 #include <filesystem> // C++17#
+#include "point.hpp"
+//graphics header, linked as library search record
+#include <d2d1.h>
+#pragma comment(lib, "d2d1")
+
+//dsiable warning 4996 for the codecvt lib as it is marked deprecated, but there is actually no alternative so uhh
+#pragma warning (push)
+#pragma warning (disable:4996) 
+
+//using directives
+using std::string;
+using namespace n_point;
+
 namespace util {
 
 	inline std::wstring s_to_ws(const string& str) {
@@ -62,12 +71,36 @@ namespace util {
 		return ws_to_s(res);
 	}
 
-	template <class T> void SafeRelease(T** ppT) {
+	template <class T> void safe_release(T** ppT) {
 		if (*ppT) {
 			(*ppT)->Release();
 			*ppT = NULL;
 		}
 	}
+
+	class dpi_scale {
+	private:
+		static float scale;
+	public:
+
+		static void initialize_dpi_for_window(HWND hwnd) {
+			float dpi = static_cast<float>(GetDpiForWindow(hwnd));
+			scale = dpi / 96.0f;
+		}
+
+		static point pixels_to_dips(const point& p) {
+			return { p.x / scale, p.y / scale };
+		}
+
+		static D2D1_POINT_2F pixels_to_dips(const D2D1_POINT_2F& p) {
+			return { p.x / scale, p.y / scale };
+		}
+
+		template<typename T>
+		static D2D1_POINT_2F pixels_to_dips(T x, T y) {
+			return D2D1::Point2F(static_cast<float>(x) / scale, static_cast<float>(y) / scale);
+		}
+	};
 }
 
 #endif // !UTILS_H

@@ -7,34 +7,25 @@
 namespace n_point {
 	//a struct definition for the location of a node, to seperate the node definition from the coordinate systen we use
 	typedef struct point {
-		double x, y;
+		float x, y;
 		//operator overloading for our point
 		struct point& operator+=(const point& rhs) { x += rhs.x; y += rhs.y; return *this; }
-		struct point& operator+=(const double& k) { x += k; y += k; return *this; }
+		struct point& operator+=(const float& k) { x += k; y += k; return *this; }
 		struct point& operator-=(const point& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
-		struct point& operator-=(const double& k) { x -= k; y -= k; return *this; }
+		struct point& operator-=(const float& k) { x -= k; y -= k; return *this; }
+
+		operator D2D1_POINT_2F() {
+			return D2D1_POINT_2F{ x, y };
+		}
 	} point;
 
 	//operator overloading for our point
-	inline point operator+(point lhs, const point& rhs) { return lhs += rhs; }
-	inline point operator+(point lhs, const double k) { return lhs += k; }
-	inline point operator+(const double k, point rhs) { return rhs += k; }
-	inline point operator-(point lhs, const point& rhs) { return lhs -= rhs; }
-	inline point operator-(point lhs, const double k) { return lhs -= k; }
-	inline point operator-(const double k, point rhs) { return rhs -= k; }
-
-
-
-	namespace n_dpi {
-		inline float InitializeDPIScale(HWND hwnd) {
-			float dpi = static_cast<float>(GetDpiForWindow(hwnd));
-			return dpi / 96.0f;
-		}
-
-		inline point PixelsToDipsX(const point& p, float dpi_scale) {
-			return { p.x / dpi_scale, p.y / dpi_scale };
-		}
-	}
+	inline point operator+(point lhs, const point& rhs) { return {lhs.x + rhs.x, lhs.y + rhs.y}; }
+	inline point operator+(point lhs, const float k) { return { lhs.x + k, lhs.y + k }; }
+	inline point operator+(const float k, point rhs) { return { k + rhs.x, k + rhs.y }; }
+	inline point operator-(point lhs, const point& rhs) { return { lhs.x - rhs.x, lhs.y - rhs.y }; }
+	inline point operator-(point lhs, const float k) { return { lhs.x - k, lhs.y - k }; }
+	inline point operator-(const float k, point rhs) { return { k - rhs.x, k - rhs.y }; }
 }
 
 
