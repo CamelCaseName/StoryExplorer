@@ -30,21 +30,122 @@ HRESULT main_window::create_graphics_ressources() {
 			&render_target);
 
 		if (SUCCEEDED(hr)) {
+			hr = create_text_ressources();
+		}
+
+		if (SUCCEEDED(hr)) {
 			hr = render_target->CreateSolidColorBrush(D2D1::ColorF(1.0f, 1.0f, 0), &node_brush);
 			hr = render_target->CreateSolidColorBrush(D2D1::ColorF(1.0f, 0, 1.0f), &edge_brush);
 
-			if (SUCCEEDED(hr)) {
-				calculate_layout();
-			}
+		}
+
+		if (SUCCEEDED(hr)) {
+
+			calculate_layout();
 		}
 	}
 	return hr;
 }
 
+HRESULT main_window::create_text_ressources() {
+	static const wchar_t msc_font_name[] = L"Bahnschrift";
+	static const float msc_font_size = 25;
+	HRESULT hr;
+
+	// Create a DirectWrite factory.
+	hr = DWriteCreateFactory(
+		DWRITE_FACTORY_TYPE_SHARED,
+		__uuidof(text_factory),
+		reinterpret_cast<IUnknown**>(&text_factory)
+	);
+
+	if (SUCCEEDED(hr)) {
+		// Create a DirectWrite text format object.
+		hr = text_factory->CreateTextFormat(
+			msc_font_name,
+			NULL,
+			DWRITE_FONT_WEIGHT_NORMAL,
+			DWRITE_FONT_STYLE_NORMAL,
+			DWRITE_FONT_STRETCH_NORMAL,
+			msc_font_size,
+			L"", //locale
+			&text_format
+		);
+	}
+	if (SUCCEEDED(hr)) {
+		// Center the text horizontally and vertically.
+		text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+
+		text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+	}
+
+	text_rect.left = 0;
+	text_rect.top = 0;
+	text_rect.bottom = 80;
+	text_rect.right = 300;
+
+	if (SUCCEEDED(hr)) {
+		hr = render_target->CreateSolidColorBrush(D2D1::ColorF(0.0f, 0.0f, 0.0f), &text_brush);
+	}
+
+	return hr;
+}
+
 void main_window::set_nodes(const node_data& _nodes) {
+	node_layout_start_time = high_resolution_clock::now();
 	nodes = _nodes;
+
+	//do the force directed stuff
+	layout_nodes(algorithms::dpcw); //eventually get algo from settings
+
 	for (auto node : nodes.nodes) {
 		node_ellipsi.push_back(D2D1_ELLIPSE{ node->position + offset_mid, radius, radius });
+	}
+
+	node_layout_stop_time = high_resolution_clock::now();
+}
+
+void main_window::layout_nodes(algorithms algo) {
+	switch (algo) {
+	case algorithms::dpcw:
+		do_dpcw_nodes();
+		break;
+	default:
+		break;
+	}
+}
+
+void main_window::do_dpcw_nodes() {
+	float max_edge_weight = 0.0f;
+	float min_edge_weight = 0.0f;
+	std::vector<std::vector<node*>> clusters;
+	std::vector<node*> unconnected_nodes;
+	std::vector<float> weights;
+	std::unordered_set<node*> nodes_with_edges;
+	//get max and min edge weight
+	for (auto edge : nodes.edges) {
+		max_edge_weight = std::max(max_edge_weight, edge->weight);
+		min_edge_weight = std::min(min_edge_weight, edge->weight);
+		//save weitghts so we can more easily create a list
+		weights.push_back(edge->weight);
+		//save ndoes so we can create a cluster of all ndoes not in a cluster yet due to missing edges
+		nodes_with_edges.insert(edge->node_1);
+		nodes_with_edges.insert(edge->node_2);
+	}
+
+	//add all nodes without edges to their own cluster on positon 0
+	for (auto node : nodes.nodes) {
+		if (nodes_with_edges.count(node) == 0) {
+			unconnected_nodes.push_back(node);
+		}
+	}
+	clusters.push_back(unconnected_nodes);
+
+	//assign all ndoes from edges into clusters
+	for (auto edge : nodes.edges) {
+		if (edge->weight == max_edge_weight) {
+
+		}
 	}
 }
 
@@ -54,6 +155,7 @@ void main_window::discard_graphics_ressources() {
 }
 
 void main_window::on_paint() {
+	drawing_start_time = high_resolution_clock::now();
 	HRESULT hr = create_graphics_ressources();
 	if (SUCCEEDED(hr)) {
 		PAINTSTRUCT ps;
@@ -66,11 +168,29 @@ void main_window::on_paint() {
 		paint_edges();
 		paint_nodes();
 
+		draw_debug_text();
+
 		hr = render_target->EndDraw();
 		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET) {
 			discard_graphics_ressources();
 		}
 		EndPaint(hwnd, &ps);
+	}
+	drawing_stop_time = high_resolution_clock::now();
+	duration = duration_cast<microseconds>(drawing_stop_time - drawing_start_time);
+}
+
+void main_window::draw_debug_text() {
+	if (duration.count() > 0) {
+		sprintf_s(
+			duration_text, 
+			100, 
+			"fps: %lli\nframe time: %lli us\nnode layout time: %lli us", 
+			(1000000LL / duration.count()), 
+			duration.count(), 
+			duration_cast<microseconds>(node_layout_stop_time - node_layout_start_time).count());
+		std::wstring dt_w = s_to_ws(string(duration_text));
+		render_target->DrawTextW(dt_w.c_str(), static_cast<uint32_t>(dt_w.length()), text_format, text_rect, text_brush);
 	}
 }
 
