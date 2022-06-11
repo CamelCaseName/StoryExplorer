@@ -44,6 +44,7 @@ private:
 	const float radius = 7.0f;
 	float x_offset = 0.0f;
 	float y_offset = 0.0f;
+	int layout_iterations = 0;
 	point offset_mid = {};
 	steady_clock::time_point drawing_start_time;
 	steady_clock::time_point drawing_stop_time;
@@ -54,11 +55,13 @@ private:
 
 
 	void calculate_layout();
+	void update_node_ellipsi();
 	HRESULT create_graphics_ressources();
 	HRESULT create_text_ressources();
 	void discard_graphics_ressources();
 	void layout_nodes(algorithms algo);
 	void do_dpcw_nodes();
+	void do_force_directed_layout(const node_data& nodes, int max_iterations = 1);
 	void on_paint();
 	void draw_debug_text();
 	void paint_nodes();

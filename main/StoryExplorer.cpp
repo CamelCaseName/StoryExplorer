@@ -7,6 +7,7 @@
 bool startup(wchar_t*);
 void cleanup();
 node_data debug_data();
+node_data nodes;
 
 std::vector<parser*> parsers;
 //global window instance
@@ -29,6 +30,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//show window
 	ShowWindow(win.window(), nCmdShow);
+
+	//give the renderer our nodes
+	win.set_nodes(nodes);
 
 	MSG msg = {};
 	// Main message loop:
@@ -63,13 +67,10 @@ bool startup(wchar_t* cmd_line) {
 				//read in file
 				string text = read_file_to_string(get_setting("path"));
 				//do the parsing
-				node_data nodes = p->parse(text);
-
+				nodes = p->parse(text);
 
 				nodes = debug_data();
 
-				//give the renderer our nodes
-				win.set_nodes(nodes);
 
 				return true;
 			}

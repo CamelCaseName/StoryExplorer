@@ -17,15 +17,28 @@ namespace n_point {
 		operator D2D1_POINT_2F() {
 			return D2D1_POINT_2F{ x, y };
 		}
+
+		float length() {
+			return sqrtf(x * x + y * y);
+		}
+
 	} point;
 
 	//operator overloading for our point
-	inline point operator+(point lhs, const point& rhs) { return {lhs.x + rhs.x, lhs.y + rhs.y}; }
+	inline point operator+(point lhs, const point& rhs) { return { lhs.x + rhs.x, lhs.y + rhs.y }; }
 	inline point operator+(point lhs, const float k) { return { lhs.x + k, lhs.y + k }; }
 	inline point operator+(const float k, point rhs) { return { k + rhs.x, k + rhs.y }; }
 	inline point operator-(point lhs, const point& rhs) { return { lhs.x - rhs.x, lhs.y - rhs.y }; }
 	inline point operator-(point lhs, const float k) { return { lhs.x - k, lhs.y - k }; }
 	inline point operator-(const float k, point rhs) { return { k - rhs.x, k - rhs.y }; }
+	inline point operator*(point lhs, const float k) { return { lhs.x * k, lhs.y * k }; }
+	inline point operator*(const float k, point rhs) { return { k * rhs.x, k * rhs.y }; }
+	inline point operator/(point lhs, const float k) { return { lhs.x / k, lhs.y / k }; }
+	inline point operator/(const float k, point rhs) { return { k / rhs.x, k / rhs.y }; }
+
+	inline point zero() {
+		return { 0.0f, 0.0f };
+	}
 }
 
 

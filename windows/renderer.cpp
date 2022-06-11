@@ -7,12 +7,15 @@ void main_window::calculate_layout() {
 		y_offset = size.height / 2;
 		offset_mid = { x_offset, y_offset };
 
-		//update positions
+		update_node_ellipsi();
+	}
+}
 
-		int i = 0;
-		for (auto node : nodes.nodes) {
-			node_ellipsi[i++].point = node->position + offset_mid;
-		}
+void main_window::update_node_ellipsi() {
+	//update positions
+	int i = 0;
+	for (auto node : nodes.nodes) {
+		node_ellipsi[i++].point = node->position + offset_mid;
 	}
 }
 
@@ -36,11 +39,9 @@ HRESULT main_window::create_graphics_ressources() {
 		if (SUCCEEDED(hr)) {
 			hr = render_target->CreateSolidColorBrush(D2D1::ColorF(1.0f, 1.0f, 0), &node_brush);
 			hr = render_target->CreateSolidColorBrush(D2D1::ColorF(1.0f, 0, 1.0f), &edge_brush);
-
 		}
 
 		if (SUCCEEDED(hr)) {
-
 			calculate_layout();
 		}
 	}
@@ -76,13 +77,13 @@ HRESULT main_window::create_text_ressources() {
 		// Center the text horizontally and vertically.
 		text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 
-		text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+		text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 	}
 
 	text_rect.left = 0;
 	text_rect.top = 0;
 	text_rect.bottom = 80;
-	text_rect.right = 300;
+	text_rect.right = 500;
 
 	if (SUCCEEDED(hr)) {
 		hr = render_target->CreateSolidColorBrush(D2D1::ColorF(0.0f, 0.0f, 0.0f), &text_brush);
@@ -92,20 +93,19 @@ HRESULT main_window::create_text_ressources() {
 }
 
 void main_window::set_nodes(const node_data& _nodes) {
-	node_layout_start_time = high_resolution_clock::now();
 	nodes = _nodes;
-
-	//do the force directed stuff
-	layout_nodes(algorithms::dpcw); //eventually get algo from settings
 
 	for (auto node : nodes.nodes) {
 		node_ellipsi.push_back(D2D1_ELLIPSE{ node->position + offset_mid, radius, radius });
 	}
+	//do the force directed stuff
+	layout_nodes(algorithms::dpcw); //eventually get algo from settings
 
-	node_layout_stop_time = high_resolution_clock::now();
+
 }
 
 void main_window::layout_nodes(algorithms algo) {
+	node_layout_start_time = high_resolution_clock::now();
 	switch (algo) {
 	case algorithms::dpcw:
 		do_dpcw_nodes();
@@ -113,6 +113,7 @@ void main_window::layout_nodes(algorithms algo) {
 	default:
 		break;
 	}
+	node_layout_stop_time = high_resolution_clock::now();
 }
 
 void main_window::do_dpcw_nodes() {
@@ -147,6 +148,90 @@ void main_window::do_dpcw_nodes() {
 
 		}
 	}
+	do_force_directed_layout(nodes);
+
+
+	update_node_ellipsi();
+}
+
+void main_window::do_force_directed_layout(const node_data& data, int max_iterations) {
+	float repulsion = 200.0f;
+	float attraction = 10.0f;
+	float length = 120.0f;
+	float cooldown = 0.9999999f;
+	//save all forces here
+	point* node_forces = static_cast<point*>(calloc(data.nodes.size(), sizeof(point)));
+	//we need some nodes or else things break, also nullptr check
+	if (data.edges.size() > 0 && node_forces) {
+
+		//preallocate all variables so we dont have to create new ones all the time
+		float distance = 0;
+
+		//times to perform calculation, result gets better over time
+		int iteration = 0;
+		while (iteration < max_iterations) {
+			++layout_iterations;
+			//calculate new, smaller cooldown so the nodes will move less and less
+			cooldown *= cooldown;
+			int index = 0;
+			for (auto current : data.nodes) {
+				for (auto other : data.nodes) {
+					//if not the same node and not same position
+					if (current == other) {
+						continue;
+					}
+					//difference as a vector
+					point difference = other->position - current->position;
+
+					//absolute length of difference/distance (sqrt of distance)
+					distance = difference.length();
+
+					if (distance < 0.1f) {
+						current->position + 10;
+					}
+					else {
+						//float x_rep = (repulsion * x_diff) / (mass[current] * powf(distance, 2) * distance);
+						point rep = (repulsion * difference) / (current->weight * powf(distance, 2));
+
+						//check next edge we have in our list
+						//if we have a connection from us to the node we are locking at right now, aka child 
+						bool connected = false;
+						for (auto edge : data.edges) {
+							if ((edge->node_1 == current && edge->node_2 == other) || (edge->node_1 == other && edge->node_2 == current)) {
+								connected = true;
+								break;
+							}
+						}
+						if (connected) {
+							//so we can now do the attraction force
+							//formula: c_spring * log(distance / length) * vec(p_u->p_v) - f_rep
+							//NodeForces[node.Guid] += (attraction * (float)Math.Log(distance / length) * (difference / distance)) - repulsionForce;
+							node_forces[index] += (attraction * logf(distance / length) * (difference / distance)) - rep;
+						}
+						else {
+							//todo
+							//add something like this  - (powf((offset_mid - current->position).length(), 2) * 0.00005f)
+							//to pull to all our nodes to center
+							node_forces[index] -= rep;
+						}
+					}
+				}
+				//"gravity"
+				node_forces[index] -= (current->position / current->position.length()) * 4.0f;
+				++index;
+			}
+
+			//apply forces
+			for (int i = 0; i < data.nodes.size(); i++) {
+				data.nodes[i]->position += cooldown * node_forces[i];
+			}
+
+			iteration++;
+		}
+
+		//free our forces after use
+		std::free(node_forces);
+	}
 }
 
 void main_window::discard_graphics_ressources() {
@@ -164,6 +249,7 @@ void main_window::on_paint() {
 		render_target->BeginDraw();
 
 		render_target->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
+
 
 		paint_edges();
 		paint_nodes();
@@ -183,12 +269,13 @@ void main_window::on_paint() {
 void main_window::draw_debug_text() {
 	if (duration.count() > 0) {
 		sprintf_s(
-			duration_text, 
-			100, 
-			"fps: %lli\nframe time: %lli us\nnode layout time: %lli us", 
-			(1000000LL / duration.count()), 
-			duration.count(), 
-			duration_cast<microseconds>(node_layout_stop_time - node_layout_start_time).count());
+			duration_text,
+			100,
+			"fps: %lli\nframe time: %lli us\ntime per layout_nodes(): %lli us\niterations: %i",
+			(1000000LL / duration.count()),
+			duration.count(),
+			duration_cast<microseconds>(node_layout_stop_time - node_layout_start_time).count(),
+			layout_iterations);
 		std::wstring dt_w = s_to_ws(string(duration_text));
 		render_target->DrawTextW(dt_w.c_str(), static_cast<uint32_t>(dt_w.length()), text_format, text_rect, text_brush);
 	}
@@ -254,6 +341,7 @@ LRESULT main_window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		return 0;
 
 	case WM_PAINT:
+		layout_nodes(algorithms::dpcw);
 		on_paint();
 		return 0;
 
