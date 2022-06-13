@@ -3,8 +3,13 @@
 
 #define NOMINMAX
 #include <Windows.h>
+//set for some aspects of the dpcw
 #include <unordered_set>
+//stopwatch functions
 #include <chrono>
+//timer classes
+#include <thread>
+//#include <agents.h> //cant get it to work
 //graphics header, linked as library search record
 #include <d2d1.h>
 #pragma comment(lib, "d2d1")
@@ -14,7 +19,7 @@
 #include <dwrite_2.h>
 #include <dwrite_3.h>
 #pragma comment(lib, "dwrite")
-//base widnow stuff
+//basic widnow stuff
 #include "basewin.hpp"
 
 #include "..\\utils\node.hpp"
@@ -23,11 +28,14 @@ using namespace util;
 using namespace n_node;
 using namespace std;
 using namespace std::chrono;
+using std::chrono::operator""ms;
+using std::chrono::operator""us;
+using std::chrono::operator""s;
+constexpr int debug_buffer_size = 1000;
 
 enum class algorithms {
 	dpcw //the good thing
 };
-
 
 class main_window : public base_window<main_window> {
 private:
@@ -42,6 +50,8 @@ private:
 	std::vector<D2D1_ELLIPSE> node_ellipsi;
 	node_data nodes = { };
 	const float radius = 7.0f;
+	const milliseconds target_frame_time_ms = 10ms;
+	const algorithms current_algorithm = algorithms::dpcw;
 	float x_offset = 0.0f;
 	float y_offset = 0.0f;
 	int layout_iterations = 0;
@@ -50,9 +60,13 @@ private:
 	steady_clock::time_point drawing_stop_time;
 	steady_clock::time_point node_layout_start_time;
 	steady_clock::time_point node_layout_stop_time;
+	std::wstring debug_text;
 	microseconds duration;
-	char* duration_text = (char*)calloc(100, sizeof(char*));
-
+	bool nodes_updated_main = false;
+	bool force_update = true;//used for fixed 30/60fps updating of the graph
+	char* duration_text = (char*)calloc(debug_buffer_size, sizeof(char*));
+	thread fps_update;
+	thread node_layout_update;
 
 	void calculate_layout();
 	void update_node_ellipsi();
@@ -66,6 +80,7 @@ private:
 	void draw_debug_text();
 	void paint_nodes();
 	void paint_edges();
+	void thread_master();
 	void resize();
 
 public:
@@ -73,7 +88,11 @@ public:
 	main_window() : factory(NULL), render_target(NULL), node_brush(NULL) {
 	}
 
+	void fps_updater(milliseconds target_frametime);
+	void node_layout_updater(milliseconds target_frametime);
+	bool nodes_updated() { return nodes_updated_main; }
 	void set_nodes(const node_data& _nodes);
+	void layout_nodes();
 	PCWSTR  class_name() const { return L"Circle Window Class"; }
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 

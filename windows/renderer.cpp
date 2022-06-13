@@ -1,4 +1,5 @@
 #include "renderer.hpp"
+#include <functional>
 
 void main_window::calculate_layout() {
 	if (render_target != NULL) {
@@ -29,7 +30,7 @@ HRESULT main_window::create_graphics_ressources() {
 
 		hr = factory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(hwnd, size),
+			D2D1::HwndRenderTargetProperties(hwnd, size, D2D1_PRESENT_OPTIONS_IMMEDIATELY | D2D1_PRESENT_OPTIONS_RETAIN_CONTENTS),
 			&render_target);
 
 		if (SUCCEEDED(hr)) {
@@ -99,9 +100,7 @@ void main_window::set_nodes(const node_data& _nodes) {
 		node_ellipsi.push_back(D2D1_ELLIPSE{ node->position + offset_mid, radius, radius });
 	}
 	//do the force directed stuff
-	layout_nodes(algorithms::dpcw); //eventually get algo from settings
-
-
+	layout_nodes(current_algorithm); //eventually get algo from settings
 }
 
 void main_window::layout_nodes(algorithms algo) {
@@ -114,6 +113,10 @@ void main_window::layout_nodes(algorithms algo) {
 		break;
 	}
 	node_layout_stop_time = high_resolution_clock::now();
+}
+
+void main_window::layout_nodes() {
+	layout_nodes(current_algorithm);
 }
 
 void main_window::do_dpcw_nodes() {
@@ -148,17 +151,17 @@ void main_window::do_dpcw_nodes() {
 
 		}
 	}
-	do_force_directed_layout(nodes);
 
+	do_force_directed_layout(nodes);
 
 	update_node_ellipsi();
 }
 
 void main_window::do_force_directed_layout(const node_data& data, int max_iterations) {
+	//todo move all to settings?
 	float repulsion = 200.0f;
 	float attraction = 10.0f;
 	float length = 120.0f;
-	float cooldown = 0.9999999f;
 	//save all forces here
 	point* node_forces = static_cast<point*>(calloc(data.nodes.size(), sizeof(point)));
 	//we need some nodes or else things break, also nullptr check
@@ -168,12 +171,10 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 		float distance = 0;
 
 		//times to perform calculation, result gets better over time
-		int iteration = 0;
+		int iteration = 0, index = 0;
 		while (iteration < max_iterations) {
+			index = 0;
 			++layout_iterations;
-			//calculate new, smaller cooldown so the nodes will move less and less
-			cooldown *= cooldown;
-			int index = 0;
 			for (auto current : data.nodes) {
 				for (auto other : data.nodes) {
 					//if not the same node and not same position
@@ -190,7 +191,6 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 						current->position + 10;
 					}
 					else {
-						//float x_rep = (repulsion * x_diff) / (mass[current] * powf(distance, 2) * distance);
 						point rep = (repulsion * difference) / (current->weight * powf(distance, 2));
 
 						//check next edge we have in our list
@@ -205,13 +205,9 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 						if (connected) {
 							//so we can now do the attraction force
 							//formula: c_spring * log(distance / length) * vec(p_u->p_v) - f_rep
-							//NodeForces[node.Guid] += (attraction * (float)Math.Log(distance / length) * (difference / distance)) - repulsionForce;
 							node_forces[index] += (attraction * logf(distance / length) * (difference / distance)) - rep;
 						}
 						else {
-							//todo
-							//add something like this  - (powf((offset_mid - current->position).length(), 2) * 0.00005f)
-							//to pull to all our nodes to center
 							node_forces[index] -= rep;
 						}
 					}
@@ -223,10 +219,10 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 
 			//apply forces
 			for (int i = 0; i < data.nodes.size(); i++) {
-				data.nodes[i]->position += cooldown * node_forces[i];
+				data.nodes[i]->position += node_forces[i];
 			}
 
-			iteration++;
+			++iteration;
 		}
 
 		//free our forces after use
@@ -237,9 +233,20 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 void main_window::discard_graphics_ressources() {
 	safe_release(&render_target);
 	safe_release(&node_brush);
+	safe_release(&text_brush);
+	safe_release(&edge_brush);
+	safe_release(&factory);
+	safe_release(&text_factory);
+	safe_release(&text_format);
+	//end fps update task
+	force_update = false;
+	fps_update.join();
+	node_layout_update.join();
 }
 
 void main_window::on_paint() {
+	drawing_stop_time = high_resolution_clock::now();
+	duration = duration_cast<microseconds>(drawing_stop_time - drawing_start_time);
 	drawing_start_time = high_resolution_clock::now();
 	HRESULT hr = create_graphics_ressources();
 	if (SUCCEEDED(hr)) {
@@ -250,11 +257,11 @@ void main_window::on_paint() {
 
 		render_target->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
 
-
 		paint_edges();
 		paint_nodes();
 
 		draw_debug_text();
+
 
 		hr = render_target->EndDraw();
 		if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET) {
@@ -262,23 +269,20 @@ void main_window::on_paint() {
 		}
 		EndPaint(hwnd, &ps);
 	}
-	drawing_stop_time = high_resolution_clock::now();
-	duration = duration_cast<microseconds>(drawing_stop_time - drawing_start_time);
 }
 
 void main_window::draw_debug_text() {
-	if (duration.count() > 0) {
 		sprintf_s(
 			duration_text,
-			100,
-			"fps: %lli\nframe time: %lli us\ntime per layout_nodes(): %lli us\niterations: %i",
+			debug_buffer_size,
+			"current fps: %lli\nlast real frame time: %lli us\ntime per layout_nodes(): %lli us\niterations: %i",
 			(1000000LL / duration.count()),
 			duration.count(),
 			duration_cast<microseconds>(node_layout_stop_time - node_layout_start_time).count(),
 			layout_iterations);
-		std::wstring dt_w = s_to_ws(string(duration_text));
-		render_target->DrawTextW(dt_w.c_str(), static_cast<uint32_t>(dt_w.length()), text_format, text_rect, text_brush);
-	}
+		debug_text = s_to_ws(string(duration_text));
+	render_target->DrawTextW(debug_text.c_str(), static_cast<uint32_t>(debug_text.length()), text_format, text_rect, text_brush);
+
 }
 
 void main_window::paint_nodes() {
@@ -310,6 +314,39 @@ void main_window::paint_edges() {
 	}
 }
 
+void main_window::thread_master() {
+	drawing_start_time = high_resolution_clock::now();
+	fps_update = thread(&main_window::fps_updater, this, target_frame_time_ms);
+	node_layout_update = thread(&main_window::node_layout_updater, this, target_frame_time_ms);
+}
+
+void main_window::fps_updater(milliseconds target_frametime) {
+	while (force_update) {
+		if (nodes_updated_main) {
+			//wait, for 30fps, then invalidate rect and draw again. only "consume" nodes after they are already done.
+			//this_thread::sleep_until(time_point_cast<milliseconds>(high_resolution_clock::now()) + target_frametime);
+			InvalidateRect(hwnd, 0, false);
+			nodes_updated_main = false;
+		}
+		this_thread::sleep_for(target_frametime);
+	}
+}
+
+void main_window::node_layout_updater(milliseconds target_frametime) {
+	while (force_update) {
+		if (nodes_updated_main) {
+			//if nodes have not been consumed, we wait until they have been
+			//this_thread::sleep_until(time_point_cast<milliseconds>(high_resolution_clock::now()) + target_frametime);
+			this_thread::sleep_for(target_frametime);
+		}
+		else {
+			//we layout new nodes, only then do we allow the layout to display them
+			layout_nodes();
+			nodes_updated_main = true;
+		}
+	}
+}
+
 void main_window::resize() {
 	if (render_target != NULL) {
 		RECT rc;
@@ -332,6 +369,7 @@ LRESULT main_window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		}
 		//init dpi
 		dpi_scale::initialize_dpi_for_window(hwnd);
+		thread_master();
 		return 0;
 
 	case WM_DESTROY:
@@ -341,7 +379,7 @@ LRESULT main_window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		return 0;
 
 	case WM_PAINT:
-		layout_nodes(algorithms::dpcw);
+		//layout_nodes(algorithms::dpcw);
 		on_paint();
 		return 0;
 
