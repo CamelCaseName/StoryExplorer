@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmd_parser\command_parser.hpp" />
-    <ClInclude Include="libs\simdjson.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="main\StoryExplorer.hpp" />
     <ClInclude Include="parsers\eek_parser.hpp" />
     <ClInclude Include="parsers\parser.hpp" />
@@ -35,7 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmd_parser\command_parser.cpp" />
-    <ClCompile Include="libs\simdjson.cpp" />
     <ClCompile Include="main\StoryExplorer.cpp" />
     <ClCompile Include="parsers\eek_parser.cpp" />
     <ClCompile Include="settings\settings.cpp" />

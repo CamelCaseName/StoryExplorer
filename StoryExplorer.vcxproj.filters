@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="libs">
-      <UniqueIdentifier>{27ed5c3e-454d-442e-9090-e57f715471d7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windows\basewin.hpp">
@@ -51,10 +48,10 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\simdjson.h">
-      <Filter>libs</Filter>
-    </ClInclude>
     <ClInclude Include="utils\node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -73,9 +70,6 @@
     </ClCompile>
     <ClCompile Include="cmd_parser\command_parser.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\simdjson.cpp">
-      <Filter>libs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
