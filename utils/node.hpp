@@ -20,6 +20,12 @@ namespace n_node {
 		string additional_info;
 	} node;
 
+	typedef struct linked_node {
+		node self = {};
+		std::vector<linked_node*> parents;
+		std::vector<linked_node*> children;
+	} linked_node;
+
 	//a struct defining an edge
 	typedef struct edge {
 		float weight = 1;
@@ -34,6 +40,22 @@ namespace n_node {
 		std::vector<node*> nodes;
 		std::vector<edge*> edges;
 	} node_data;
+
+	typedef struct linked_node_data {
+		std::vector<linked_node*> nodes;
+
+		//todo, incomplete lol
+		/*operator node_data() {
+			std::vector<node*> _nodes;
+			std::vector<edge*> _edges;
+			for (auto l_node : nodes) {
+				_nodes.push_back(&l_node->self);
+				for (auto child : l_node->children) {
+
+				}
+			}
+		}*/
+	} linked_node_data;
 }
 
 

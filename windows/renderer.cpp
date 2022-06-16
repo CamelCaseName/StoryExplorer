@@ -109,6 +109,9 @@ void main_window::layout_nodes(algorithms algo) {
 	case algorithms::dpcw:
 		do_dpcw_nodes();
 		break;
+	case algorithms::sugiyama:
+		do_sugiyama_nodes();
+		break;
 	default:
 		break;
 	}
@@ -120,6 +123,7 @@ void main_window::layout_nodes() {
 }
 
 void main_window::do_dpcw_nodes() {
+	//todo dpcw implementation
 	float max_edge_weight = 0.0f;
 	float min_edge_weight = 0.0f;
 	std::vector<std::vector<node*>> clusters;
@@ -155,6 +159,10 @@ void main_window::do_dpcw_nodes() {
 	do_force_directed_layout(nodes);
 
 	update_node_ellipsi();
+}
+
+void main_window::do_sugiyama_nodes() {
+
 }
 
 void main_window::do_force_directed_layout(const node_data& data, int max_iterations) {

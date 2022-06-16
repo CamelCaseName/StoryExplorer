@@ -28,13 +28,18 @@ using namespace util;
 using namespace n_node;
 using namespace std;
 using namespace std::chrono;
+
+#pragma warning(push)
+#pragma warning(disable:4455) //disable operator literal suffix warning, THE ENDINGS FUCKING ARE IN THE STD NAMESPACE; HOW MORE RESERVED CAN THEY BE
+using std::chrono::operator""s;
 using std::chrono::operator""ms;
 using std::chrono::operator""us;
-using std::chrono::operator""s;
+using std::chrono::operator""ns;
 constexpr int debug_buffer_size = 1000;
 
 enum class algorithms {
-	dpcw //the good thing
+	dpcw, //the good thing
+	sugiyama, //layered graph
 };
 
 class main_window : public base_window<main_window> {
@@ -51,7 +56,7 @@ private:
 	node_data nodes = { };
 	const float radius = 7.0f;
 	const milliseconds target_frame_time_ms = 10ms;
-	const algorithms current_algorithm = algorithms::dpcw;
+	const algorithms current_algorithm = algorithms::sugiyama;
 	float x_offset = 0.0f;
 	float y_offset = 0.0f;
 	int layout_iterations = 0;
@@ -74,7 +79,8 @@ private:
 	HRESULT create_text_ressources();
 	void discard_graphics_ressources();
 	void layout_nodes(algorithms algo);
-	void do_dpcw_nodes();
+	void do_dpcw_nodes(); 
+	void do_sugiyama_nodes();
 	void do_force_directed_layout(const node_data& nodes, int max_iterations = 1);
 	void on_paint();
 	void draw_debug_text();
@@ -98,4 +104,5 @@ public:
 
 };
 
+#pragma warning(pop)
 #endif // !RENDERER_H

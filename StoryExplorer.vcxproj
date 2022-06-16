@@ -20,13 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmd_parser\command_parser.hpp" />
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="main\StoryExplorer.hpp" />
     <ClInclude Include="parsers\eek_parser.hpp" />
     <ClInclude Include="parsers\parser.hpp" />
     <ClInclude Include="settings\settings.hpp" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="utils\color.hpp" />
+    <ClInclude Include="utils\json.hpp" />
     <ClInclude Include="utils\node.hpp" />
     <ClInclude Include="utils\point.hpp" />
     <ClInclude Include="utils\util.hpp" />
@@ -43,6 +43,9 @@
   <ItemGroup>
     <Image Include="main\small.ico" />
     <Image Include="main\StoryExplorer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
