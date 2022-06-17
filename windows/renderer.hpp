@@ -53,7 +53,8 @@ private:
 	ID2D1SolidColorBrush* text_brush;
 	ID2D1SolidColorBrush* edge_brush;
 	std::vector<D2D1_ELLIPSE> node_ellipsi;
-	node_data nodes = { };
+	node_data nodes = { }; //"flat" representation
+	linked_node_data linked_nodes = { }; //"blown up" representation with a complete tree 
 	const float radius = 7.0f;
 	const milliseconds target_frame_time_ms = 10ms;
 	const algorithms current_algorithm = algorithms::sugiyama;
@@ -79,7 +80,7 @@ private:
 	HRESULT create_text_ressources();
 	void discard_graphics_ressources();
 	void layout_nodes(algorithms algo);
-	void do_dpcw_nodes(); 
+	void do_dpcw_nodes();
 	void do_sugiyama_nodes();
 	void do_force_directed_layout(const node_data& nodes, int max_iterations = 1);
 	void on_paint();

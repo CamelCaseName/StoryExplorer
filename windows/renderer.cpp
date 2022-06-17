@@ -1,5 +1,4 @@
 #include "renderer.hpp"
-#include <functional>
 
 void main_window::calculate_layout() {
 	if (render_target != NULL) {
@@ -105,15 +104,17 @@ void main_window::set_nodes(const node_data& _nodes) {
 
 void main_window::layout_nodes(algorithms algo) {
 	node_layout_start_time = high_resolution_clock::now();
-	switch (algo) {
-	case algorithms::dpcw:
-		do_dpcw_nodes();
-		break;
-	case algorithms::sugiyama:
-		do_sugiyama_nodes();
-		break;
-	default:
-		break;
+	if (!nodes.nodes.empty() || !linked_nodes.nodes.empty()) {
+		switch (algo) {
+		case algorithms::dpcw:
+			do_dpcw_nodes();
+			break;
+		case algorithms::sugiyama:
+			do_sugiyama_nodes();
+			break;
+		default:
+			break;
+		}
 	}
 	node_layout_stop_time = high_resolution_clock::now();
 }
@@ -162,7 +163,20 @@ void main_window::do_dpcw_nodes() {
 }
 
 void main_window::do_sugiyama_nodes() {
+	//check if we have a linked treee representation already, else we need to blow it up
+	if (linked_nodes.nodes.empty()) {
+		linked_nodes = static_cast<linked_node_data>(nodes);
+	}
 
+	//https://en.wikipedia.org/wiki/Layered_graph_drawing#Layout_algorithm
+	//1. not implemented yet: cycle detection and removal
+
+	//2. layer assignment
+	//start at root, then go through each layer of neighboors and try to assign them to a layer
+
+	//3. crossing reduction
+
+	//4. horizontal coordinate assignment
 }
 
 void main_window::do_force_directed_layout(const node_data& data, int max_iterations) {
@@ -280,15 +294,15 @@ void main_window::on_paint() {
 }
 
 void main_window::draw_debug_text() {
-		sprintf_s(
-			duration_text,
-			debug_buffer_size,
-			"current fps: %lli\nlast real frame time: %lli us\ntime per layout_nodes(): %lli us\niterations: %i",
-			(1000000LL / duration.count()),
-			duration.count(),
-			duration_cast<microseconds>(node_layout_stop_time - node_layout_start_time).count(),
-			layout_iterations);
-		debug_text = s_to_ws(string(duration_text));
+	sprintf_s(
+		duration_text,
+		debug_buffer_size,
+		"current fps: %lli\nlast real frame time: %lli us\ntime per layout_nodes(): %lli us\niterations: %i",
+		(1000000LL / duration.count()),
+		duration.count(),
+		duration_cast<microseconds>(node_layout_stop_time - node_layout_start_time).count(),
+		layout_iterations);
+	debug_text = s_to_ws(string(duration_text));
 	render_target->DrawTextW(debug_text.c_str(), static_cast<uint32_t>(debug_text.length()), text_format, text_rect, text_brush);
 
 }
