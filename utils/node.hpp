@@ -46,9 +46,18 @@ namespace n_node {
 		string text;
 	} edge;
 
+	typedef struct linked_node_edge {
+		float weight = 1;
+		linked_node* node_1 = {};
+		linked_node* node_2 = {};
+		color custom_color = {};
+		string text;
+	} linked_node_edge;
+
 
 	typedef struct linked_node_data {
 		std::vector<linked_node*> nodes;
+		std::vector<linked_node_edge*> edges;
 		linked_node root;
 
 		//convert to a flat structure
@@ -90,6 +99,14 @@ namespace n_node {
 			//and go through all the edges and add the references in the linked nodes
 			for (auto _edge : this->edges) {
 				node_lookup[_edge->node_1]->neighbors.push_back(node_lookup[_edge->node_2]);
+				// also convert edges while were at it
+				auto _linked_edge = new linked_node_edge();
+				_linked_edge->custom_color = _edge->custom_color;
+				_linked_edge->text = _edge->text;
+				_linked_edge->weight = _edge->weight;
+				_linked_edge->node_1 = node_lookup[_edge->node_1];
+				_linked_edge->node_2 = node_lookup[_edge->node_2];
+				_data.edges.push_back(_linked_edge);
 			}
 
 			std::vector<linked_node*> linked_to_nodes;
@@ -124,25 +141,23 @@ namespace n_node {
 			if (diff.size() > 0) {
 				//if we have any nodes not yet linked to we create a master root thing and link to them. 
 				//this wil also link our new root to the old root of all nots that have been linked to
-				auto _root_node = new linked_node();
+				linked_node _root_node = {};
 				//add self node
 				node l = {};
 				l.text = "ROOT";
 				l.additional_info = "can be safely ignored";
-				_root_node->self = l;
+				_root_node.self = l;
 
 				//add all neighbors
 				for (auto _linked_node : diff) {
-					_root_node->neighbors.push_back(_linked_node);
+					_root_node.neighbors.push_back(_linked_node);
 				}
 
 				//add our old root ~if we need~
-				_root_node->neighbors.push_back(current_root);
+				_root_node.neighbors.push_back(current_root);
 
-				_data.root = *_root_node;
-				delete _root_node;
+				_data.root = _root_node;
 			}
-
 
 			//now that we have constructed the linked tree thing we can go ahead and move it into our data, then return
 			_data.nodes = all_linked_nodes;

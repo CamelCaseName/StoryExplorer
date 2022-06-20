@@ -37,6 +37,9 @@ using std::chrono::operator""us;
 using std::chrono::operator""ns;
 constexpr int debug_buffer_size = 1000;
 
+typedef std::unordered_map<linked_node*, int>& layer_map;
+typedef std::unordered_map<linked_node*, int> layer_map_i;
+
 enum class algorithms {
 	dpcw, //the good thing
 	sugiyama, //layered graph
@@ -82,14 +85,18 @@ private:
 	void layout_nodes(algorithms algo);
 	void do_dpcw_nodes();
 	void do_sugiyama_nodes();
-	void do_force_directed_layout(const node_data& nodes, int max_iterations = 1);
 	void on_paint();
 	void draw_debug_text();
 	void paint_nodes();
 	void paint_edges();
 	void thread_master();
 	void resize(); 
-	void set_layer(std::unordered_map<linked_node*, int>& _layers, linked_node* _node, int _layer_index);
+	void sugiyama_extend_links(linked_node_data& linked_nodes, layer_map layers);
+	int sugiyama_edge_span(linked_node_edge* _edge, layer_map _layers);
+	void do_force_directed_layout(const node_data& data, int max_iterations);
+	int sugiyama_edge_span(linked_node* _node1, linked_node* _node2, layer_map _layers);
+	void sugiyama_set_layer(layer_map _layers, linked_node* node, int _layer_index);
+	linked_node* sugiyama_insert_dummy_vertices(linked_node* goal, int edge_span, layer_map _layers);
 
 public:
 

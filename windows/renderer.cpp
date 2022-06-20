@@ -1,4 +1,4 @@
-#include "renderer.hpp"
+﻿#include "renderer.hpp"
 
 void main_window::calculate_layout() {
 	if (render_target != NULL) {
@@ -157,7 +157,7 @@ void main_window::do_dpcw_nodes() {
 		}
 	}
 
-	do_force_directed_layout(nodes);
+	do_force_directed_layout(nodes, 1);
 
 	update_node_ellipsi();
 }
@@ -169,32 +169,125 @@ void main_window::do_sugiyama_nodes() {
 	}
 
 	//https://en.wikipedia.org/wiki/Layered_graph_drawing#Layout_algorithm
-	//1. not implemented yet: cycle detection and removal
+	//http://emis.maths.adelaide.edu.au/journals/JGAA/accepted/2005/EiglspergerSiebenhallerKaufmann2005.9.3.pdf
 
-	//2. layer assignment
+	//#################################################
+	//##                                             ##
+	//##                                             ##
+	//##              1. CYCLE REMOVAL               ##
+	//##                                             ##
+	//##                                             ##
+	//#################################################
+	// 
+
+	//#################################################
+	//##                                             ##
+	//##                                             ##
+	//##            2. LAYER ASSIGNMENT              ##
+	//##                                             ##
+	//##                                             ##
+	//#################################################
+	// 
 	//start at root, then go through each layer of neighboors and try to assign them to a layer
-	std::unordered_map<linked_node*, int> layers = {};
+	layer_map_i layers = {};
 	int _layer = 0;
 
+	//assign root node to layer 0
 	layers.insert({ &linked_nodes.root, _layer++ });
-	//recursively set all other
-	set_layer(layers, &linked_nodes.root, _layer);
+	//recursively set all other nodes to a layer
+	sugiyama_set_layer(layers, &linked_nodes.root, _layer);
 
-	//3. crossing reduction
+	//extend all edges over boundaries with the dummy vertices
+	sugiyama_extend_links(linked_nodes, layers);
 
-	//4. horizontal coordinate assignment
+	//#################################################
+	//##                                             ##
+	//##                                             ##
+	//##           3. CROSSING REDUCTION             ##
+	//##                                             ##
+	//##                                             ##
+	//#################################################
+	// 
+
+
+	//#################################################
+	//##                                             ##
+	//##                                             ##
+	//##    4. HORIZONTAL COORIDANTE ASSIGNMENT      ##
+	//##                                             ##
+	//##                                             ##
+	//#################################################
+	// 
 }
 
-void main_window::set_layer(std::unordered_map<linked_node*, int>& _layers, linked_node* node, int _layer_index) {
+void main_window::sugiyama_extend_links(linked_node_data& linked_nodes, layer_map layers) {
+	//    For edges e = (u, v) with span(e) > 1 and for which the endpoints u and
+//    v lie on layers Liand Lj, we replace edge e by a chain of dummy vertices
+//	  u = di
+//	  , di + 1, . . ., dj−1, dj = v where any two consecutive dummy vertices are
+//	  connected by a dummy edge
+	for (auto _edge : linked_nodes.edges) {
+		int e = sugiyama_edge_span(_edge, layers);
+		if (e > 1) {
+			//iterator for potential deletion of the link to the goal node
+			auto it = _edge->node_1->neighbors.begin();
+			for (auto _node : _edge->node_1->neighbors) {
+				//if we found the other vertex of the edge
+				if (_node == _edge->node_2) {
+					//erase the link and add the dummy extended one
+					_edge->node_1->neighbors.erase(it);
+					_edge->node_1->neighbors.push_back(sugiyama_insert_dummy_vertices(_edge->node_2, e, layers));
+					break;
+				}
+				it++;
+			}
+		}
+	}
+}
+
+linked_node* main_window::sugiyama_insert_dummy_vertices(linked_node* goal, int edge_span, layer_map _layers) {
+	auto _node = new linked_node();
+	_node->self.text = "DUMMY VERTEX";
+	if (edge_span == 2) {
+		_layers.insert({ _node, _layers[goal] - edge_span });
+		_node->neighbors.push_back(goal);
+	}
+	else if (edge_span > 2) {
+		//insert a vertex directly after the node1, and directly before the node2
+		auto _node2 = new linked_node();
+		_node2->self.text = "DUMMY VERTEX";
+		_layers.insert({ _node, _layers[goal] - edge_span });
+		_layers.insert({ _node, _layers[goal] - 1 });
+		_node->neighbors.push_back(_node2);
+		_node2->neighbors.push_back(goal);
+	}
+
+	return _node;
+}
+
+void main_window::sugiyama_set_layer(layer_map _layers, linked_node* node, int _layer_index) {
 	for (auto _node : node->neighbors) {
 		//set all neighbors of this node if applicable and layer index of this node
 		if (
 			_layers.insert({ _node, _layer_index }).second &&
 			_node->neighbors.size()) {
 			//only go deeper in recursion if the current node could be inserted, hence all the childs should be new as well.
-			set_layer(_layers, _node, _layer_index + 1);
+			sugiyama_set_layer(_layers, _node, _layer_index + 1);
 		}
 	}
+}
+
+int main_window::sugiyama_edge_span(linked_node* _node1, linked_node* _node2, layer_map _layers) {
+	for (auto it = 0; it < _node1->neighbors.size(); it++) {
+		if (_node1->neighbors[it] == _node2) {
+			return _layers[_node2] - _layers[_node1] > 0 ? _layers[_node2] - _layers[_node1] : -1;
+		}
+	}
+	return -1;
+}
+
+int main_window::sugiyama_edge_span(linked_node_edge* _edge, layer_map _layers) {
+	return sugiyama_edge_span(_edge->node_1, _edge->node_2, _layers);
 }
 
 void main_window::do_force_directed_layout(const node_data& data, int max_iterations) {
