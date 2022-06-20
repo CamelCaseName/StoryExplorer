@@ -88,7 +88,8 @@ private:
 	void paint_nodes();
 	void paint_edges();
 	void thread_master();
-	void resize();
+	void resize(); 
+	void set_layer(std::unordered_map<linked_node*, int>& _layers, linked_node* _node, int _layer_index);
 
 public:
 

@@ -5,6 +5,9 @@
 #include <vector>
 #include <iterator>
 #include <string>
+#include <fstream>
+#include <istream>
+#include <iostream>
 #include <unordered_map>
 
 #include "color.hpp"
@@ -22,7 +25,12 @@ namespace n_node {
 		color custom_color = {};
 		string text;
 		string additional_info;
+
 	} node;
+
+	inline std::ostream& operator<<(std::ostream& str, const node& n) {
+		str << "P: ( " << n.position.x << "| " << n.position.y << " ) W: " << n.weight << " T: " << n.text;
+	}
 
 	typedef struct linked_node {
 		node self = {};
@@ -134,7 +142,7 @@ namespace n_node {
 				_data.root = *_root_node;
 				delete _root_node;
 			}
-			
+
 
 			//now that we have constructed the linked tree thing we can go ahead and move it into our data, then return
 			_data.nodes = all_linked_nodes;

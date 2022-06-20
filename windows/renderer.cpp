@@ -173,10 +173,28 @@ void main_window::do_sugiyama_nodes() {
 
 	//2. layer assignment
 	//start at root, then go through each layer of neighboors and try to assign them to a layer
+	std::unordered_map<linked_node*, int> layers = {};
+	int _layer = 0;
+
+	layers.insert({ &linked_nodes.root, _layer++ });
+	//recursively set all other
+	set_layer(layers, &linked_nodes.root, _layer);
 
 	//3. crossing reduction
 
 	//4. horizontal coordinate assignment
+}
+
+void main_window::set_layer(std::unordered_map<linked_node*, int>& _layers, linked_node* node, int _layer_index) {
+	for (auto _node : node->neighbors) {
+		//set all neighbors of this node if applicable and layer index of this node
+		if (
+			_layers.insert({ _node, _layer_index }).second &&
+			_node->neighbors.size()) {
+			//only go deeper in recursion if the current node could be inserted, hence all the childs should be new as well.
+			set_layer(_layers, _node, _layer_index + 1);
+		}
+	}
 }
 
 void main_window::do_force_directed_layout(const node_data& data, int max_iterations) {
