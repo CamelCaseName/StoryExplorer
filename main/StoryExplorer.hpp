@@ -20,9 +20,9 @@
 
 //cpp headers 
 #include "..\\targetver.h"
-#include "..\\parsers\parser.hpp"
+#include "..\\parser\parser.hpp"
 #include "..\\cmd_parser\command_parser.hpp"
-#include "..\\parsers\eek_parser.hpp"
+#include "..\\parsers_impls\eek_parser.hpp"
 #include "..\\windows\renderer.hpp"
 #include "..\\settings\settings.hpp"
 #include "..\\utils\util.hpp"

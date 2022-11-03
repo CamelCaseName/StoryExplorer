@@ -278,7 +278,7 @@ void main_window::sugiyama_set_layer(layer_map _layers, linked_node* node, int _
 }
 
 int main_window::sugiyama_edge_span(linked_node* _node1, linked_node* _node2, layer_map _layers) {
-	for (auto it = 0; it < _node1->neighbors.size(); it++) {
+	for (size_t it = 0; it < _node1->neighbors.size(); it++) {
 		if (_node1->neighbors[it] == _node2) {
 			return _layers[_node2] - _layers[_node1] > 0 ? _layers[_node2] - _layers[_node1] : -1;
 		}
@@ -351,7 +351,7 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 			}
 
 			//apply forces
-			for (int i = 0; i < data.nodes.size(); i++) {
+			for (size_t i = 0; i < data.nodes.size(); i++) {
 				data.nodes[i]->position += node_forces[i];
 			}
 

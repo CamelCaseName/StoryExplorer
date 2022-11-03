@@ -24,9 +24,9 @@
 
 #include "..\\utils\node.hpp"
 #include "..\\utils\util.hpp"
-#include "..\\layouters\layouter.hpp"
-#include "..\\layouters\dpcw_layouter.hpp"
-#include "..\\layouters\sugiyama_layouter.hpp"
+#include "..\\layouter\layouter.hpp"
+#include "..\\layouters_impls\dpcw_layouter.hpp"
+#include "..\\layouters_impls\sugiyama_layouter.hpp"
 using namespace util;
 using namespace n_node;
 using namespace std;

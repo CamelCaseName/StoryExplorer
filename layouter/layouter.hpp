@@ -1,12 +1,19 @@
 #pragma once
-#include "..\\utils\node.hpp"
 
-class layouter {
+//export this to a dll
+#define EXPLORERDLL_EXPORT
+#include "..\\utils\node.hpp"
+#include "..\\dll_loading\dll_common.h"
+#include "..\\dll_loading\plugin_base.hpp"
+
+class EXPLORERDLL_API layouter : plugin_base{
 private:
 public:
 	n_node::node_data nodes = {};
 	n_node::linked_node_data linked_nodes = {};
+
 	bool uses_linked = false;
+
 	inline void set_nodes(n_node::node_data& _nodes) {
 		nodes = _nodes;
 		if (uses_linked) {
@@ -15,4 +22,10 @@ public:
 	}
 
 	virtual void do_layout() = 0;
+
+	layouter();
+
+	~layouter();
 };
+
+#undef EXPLORERDLL_EXPORT

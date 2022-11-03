@@ -2,7 +2,7 @@
 #define EEK_PARSER_H
 #include <vector>
 #include <string>
-#include "parser.hpp"
+#include "..\\parser\parser.hpp"
 #include "..\\utils\json.hpp"
 using json = nlohmann::json;
 //todo https://github.com/nlohmann/json#specializing-enum-conversion this for the eek enums, mabye rip them from dnspy automatically?

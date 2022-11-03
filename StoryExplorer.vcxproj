@@ -38,10 +38,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmd_parser\command_parser.cpp" />
-    <ClCompile Include="layouters\dpcw_layouter.cpp" />
-    <ClCompile Include="layouters\sugiyama_layouter.cpp" />
+    <ClCompile Include="layouters_impls\dpcw_layouter.cpp" />
+    <ClCompile Include="layouters_impls\sugiyama_layouter.cpp" />
     <ClCompile Include="main\StoryExplorer.cpp" />
-    <ClCompile Include="parsers\eek_parser.cpp" />
+    <ClCompile Include="parsers_impls\eek_parser.cpp" />
     <ClCompile Include="settings\settings.cpp" />
     <ClCompile Include="windows\renderer.cpp" />
   </ItemGroup>
