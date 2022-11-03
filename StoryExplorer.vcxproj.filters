@@ -54,6 +54,15 @@
     <ClInclude Include="utils\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="layouter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dpcw_layouter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sugiyama_layouter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windows\renderer.cpp">
@@ -69,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cmd_parser\command_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="layouters\dpcw_layouter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="layouters\sugiyama_layouter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

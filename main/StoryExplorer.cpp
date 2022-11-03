@@ -63,7 +63,7 @@ bool startup(wchar_t* cmd_line) {
 
 		//find fitting parser
 		for (auto p : parsers) {
-			if (p->preferred_extension(file_extension)) {
+			if (p->is_preferred_extension(file_extension)) {
 				//read in file
 				string text = read_file_to_string(get_setting("path"));
 				//do the parsing

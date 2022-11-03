@@ -99,7 +99,7 @@ void main_window::set_nodes(const node_data& _nodes) {
 		node_ellipsi.push_back(D2D1_ELLIPSE{ node->position + offset_mid, radius, radius });
 	}
 	//do the force directed stuff
-	layout_nodes(current_algorithm); //eventually get algo from settings
+	layout_nodes();
 }
 
 void main_window::layout_nodes(algorithms algo) {
@@ -120,7 +120,7 @@ void main_window::layout_nodes(algorithms algo) {
 }
 
 void main_window::layout_nodes() {
-	layout_nodes(current_algorithm);
+	layout_nodes(current_algorithm); //eventually get algo from settings
 }
 
 void main_window::do_dpcw_nodes() {

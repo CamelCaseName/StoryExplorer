@@ -20,10 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmd_parser\command_parser.hpp" />
+    <ClInclude Include="dpcw_layouter.hpp" />
+    <ClInclude Include="layouter.hpp" />
     <ClInclude Include="main\StoryExplorer.hpp" />
     <ClInclude Include="parsers\eek_parser.hpp" />
     <ClInclude Include="parsers\parser.hpp" />
     <ClInclude Include="settings\settings.hpp" />
+    <ClInclude Include="sugiyama_layouter.hpp" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="utils\color.hpp" />
     <ClInclude Include="utils\json.hpp" />
@@ -35,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmd_parser\command_parser.cpp" />
+    <ClCompile Include="layouters\dpcw_layouter.cpp" />
+    <ClCompile Include="layouters\sugiyama_layouter.cpp" />
     <ClCompile Include="main\StoryExplorer.cpp" />
     <ClCompile Include="parsers\eek_parser.cpp" />
     <ClCompile Include="settings\settings.cpp" />
@@ -58,26 +63,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
