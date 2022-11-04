@@ -220,13 +220,13 @@ void main_window::do_sugiyama_nodes() {
 	// 
 }
 
-void main_window::sugiyama_extend_links(linked_node_data& linked_nodes, layer_map layers) {
+void main_window::sugiyama_extend_links(linked_node_data& _linked_nodes, layer_map layers) {
 	//    For edges e = (u, v) with span(e) > 1 and for which the endpoints u and
 //    v lie on layers Liand Lj, we replace edge e by a chain of dummy vertices
 //	  u = di
 //	  , di + 1, . . ., dj−1, dj = v where any two consecutive dummy vertices are
 //	  connected by a dummy edge
-	for (auto _edge : linked_nodes.edges) {
+	for (auto _edge : _linked_nodes.edges) {
 		int e = sugiyama_edge_span(_edge, layers);
 		if (e > 1) {
 			//iterator for potential deletion of the link to the goal node
@@ -423,7 +423,7 @@ void main_window::paint_nodes() {
 	for (auto node : nodes.nodes) {
 		if (static_cast<uint32_t>(node->custom_color)) {
 			ID2D1SolidColorBrush* brush_temp;
-			render_target->CreateSolidColorBrush(D2D1::ColorF(node->custom_color), &brush_temp);
+			render_target->CreateSolidColorBrush(D2D1::ColorF((UINT32)node->custom_color), &brush_temp);
 			if (brush_temp != 0) {
 				render_target->FillEllipse(node_ellipsi[i++], brush_temp);
 				continue;
@@ -437,7 +437,7 @@ void main_window::paint_edges() {
 	for (auto edge : nodes.edges) {
 		if (static_cast<uint32_t>(edge->custom_color)) {
 			ID2D1SolidColorBrush* brush_temp;
-			render_target->CreateSolidColorBrush(D2D1::ColorF(edge->custom_color), &brush_temp);
+			render_target->CreateSolidColorBrush(D2D1::ColorF((UINT32)edge->custom_color), &brush_temp);
 			if (brush_temp != 0) {
 				render_target->DrawLine(edge->node_1->position + offset_mid, edge->node_2->position + offset_mid, brush_temp);
 				continue;

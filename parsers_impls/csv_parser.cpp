@@ -5,10 +5,12 @@ EXPLORERDLL_API csv_parser::csv_parser() {}
 EXPLORERDLL_API csv_parser::~csv_parser() {}
 
 EXPLORERDLL_API n_node::node_data csv_parser::parse(const string& text) {
+	UNREFERENCED_PARAMETER(text);
     return n_node::node_data();
 }
 
 EXPLORERDLL_API bool csv_parser::is_preferred_extension(const string& extension) {
+	UNREFERENCED_PARAMETER(extension);
     return false;
 }
 

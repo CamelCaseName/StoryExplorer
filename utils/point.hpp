@@ -1,8 +1,9 @@
-#ifndef POINT_H
-#define POINT_H
+#pragma once
 //graphics header, linked as library search record
+#pragma warning(push, 0)
 #include <d2d1.h>
 #pragma comment(lib, "d2d1")
+#pragma warning(pop)
 
 namespace n_point {
 	//a struct definition for the location of a node, to seperate the node definition from the coordinate systen we use
@@ -40,6 +41,3 @@ namespace n_point {
 		return { 0.0f, 0.0f };
 	}
 }
-
-
-#endif // !POINT_H

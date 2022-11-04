@@ -1,6 +1,4 @@
-// StoryExplorer.cpp : Defines the entry point for the application.
-//
-
+//entry point
 #include "StoryExplorer.hpp"
 
 // Forward declarations of functions included in this code module:
@@ -21,6 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 					  _In_opt_ HINSTANCE hPrevInstance,
 					  _In_ LPWSTR    lpCmdLine,
 					  _In_ int       nCmdShow) {
+	UNREFERENCED_PARAMETER(hInstance);
 	UNREFERENCED_PARAMETER(hPrevInstance);
 
 

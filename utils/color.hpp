@@ -1,9 +1,12 @@
-#ifndef COLOR_H
-#define COLOR_H
+#pragma once
 #include <cstdint>
 //graphics header, linked as library search record
+
+
+#pragma warning(push, 0)
 #include <d2d1.h>
 #pragma comment(lib, "d2d1")
+#pragma warning(pop)
 
 #pragma pack(push)
 #pragma pack(1)
@@ -18,7 +21,7 @@ typedef struct color {
 		return *(int*)this;
 	}
 
-	color operator=(int num) {
+	inline color operator=(int num) {
 		/*a = (num & (0xff << 24)) >> 24;
 		r = (num & (0xff << 16)) >> 16;
 		g = (num & (0xff << 8)) >> 8;
@@ -27,10 +30,9 @@ typedef struct color {
 		return *this;
 	}
 
-	operator D2D1_COLOR_F() {
+	inline operator D2D1_COLOR_F() {
 		return { static_cast<float>(r / 255),static_cast<float>(g / 255),static_cast<float>(b / 255),static_cast<float>(a / 255) };
 	}
 
 } color;
 #pragma pack(pop)
-#endif // !COLOR_H

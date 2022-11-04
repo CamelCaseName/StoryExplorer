@@ -8,7 +8,10 @@
 #include "..\\dll_loading\plugin_base.hpp"
 #include "..\\dll_loading\plugin_exports_common.hpp"
 #include "..\\parser\parser.hpp"
+
+#pragma warning(push, 0)
 #include "..\\utils\json.hpp"
+#pragma warning(pop)
 
 using json = nlohmann::json;
 //todo https://github.com/nlohmann/json#specializing-enum-conversion this for the eek enums, mabye rip them from dnspy automatically?

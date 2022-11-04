@@ -6,6 +6,7 @@ EXPLORERDLL_API eek_parser::~eek_parser() {}
 
 
 EXPLORERDLL_API n_node::node_data eek_parser::parse(const string& text) {
+	UNREFERENCED_PARAMETER(text);
 	json j = json::parse("{\"numbah\":42,\"hello\":0.21,\"ttt\":\"test1\",\"vec\":[1,2,3,4]}");
 	//test t = {};
 	auto t = j.get<test>();

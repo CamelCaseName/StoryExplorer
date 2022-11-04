@@ -15,9 +15,9 @@ int command_parser::parse(wchar_t* cmd) {
 
 		//do stuff with the arguments
 		//rn assume first cmd is a path
-		argv = (string*)calloc(argc, sizeof(string));
+		argv = (string*)calloc((size_t)argc, (size_t)sizeof(string));
 		if (argv != nullptr) {
-			for (size_t i = 0; i < argc; i++) {
+			for (int i = 0; i < argc; i++) {
 				argv[i] = ws_to_s(std::wstring(argvwch[i]));
 			}
 
@@ -35,7 +35,7 @@ int command_parser::parse(wchar_t* cmd) {
 }
 
 int command_parser::cmd_cleanup() {
-	for (size_t i = 0; i < argc; i++) {
+	for (int i = 0; i < argc; i++) {
 		delete& (argv[i]);
 	}
 	return argc;
