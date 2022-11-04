@@ -8,6 +8,8 @@ EXPLORERDLL_API void sugiyama_layouter::do_layout() {
 
 }
 
+EXPLORERDLL_API plugin_type sugiyama_layouter::get_type() { return plugin_type::layouter; };
+
 sugiyama_layouter* instance = NULL;
 
 extern "C" EXPLORERDLL_API plugin_base * create_plugin(void) {

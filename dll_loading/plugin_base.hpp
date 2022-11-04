@@ -18,11 +18,11 @@ private:
 	std::wstring name;
 #pragma warning(pop)
 public:
-	const plugin_type type;
 	plugin_base(void);
 	~plugin_base(void);
 	void set_name(const std::wstring& _name);
 	const std::wstring& get_name(void);
+	virtual plugin_type get_type(void) = 0;
 };
 
 

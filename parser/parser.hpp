@@ -15,7 +15,6 @@
 class EXPLORERDLL_API parser : plugin_base {
 private:
 public:
-	const plugin_type type;
 	parser();
 	~parser();
 	//pure virtual parse method definition to enable inheritance and have the framework still work with the rest

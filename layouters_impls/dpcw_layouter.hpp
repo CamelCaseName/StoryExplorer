@@ -10,6 +10,7 @@
 class EXPLORERDLL_API dpcw_layouter : public layouter {
 private:
 public:
+	plugin_type get_type();
 	dpcw_layouter();
 	~dpcw_layouter();
 	void do_layout();

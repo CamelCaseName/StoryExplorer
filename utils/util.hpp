@@ -38,7 +38,23 @@ namespace util {
 			fs::path filePath = path;
 			if (filePath.has_extension()) {
 				//get extension without the dot, as per stl standard the extension() returns with a dot!
-				return filePath.extension().string().substr(1);
+				if(filePath.extension().string().substr(1).length() > 0) return  filePath.extension().string().substr(1);
+				else {
+					/*
+					std::string extension = "";
+					for (size_t i = path.length() - 1; i >= 0; i--) {
+						if (path[i] != '.') extension += path[i];
+						else break;
+					}
+					for (size_t i = 0; i < extension.length() / 2; i++) {
+						char c = extension[i];
+						extension[i] = extension[extension.length() - 1 - i];
+						extension[extension.length() - 1 - i] = c;
+					}
+					return extension;
+					*/
+					return "";
+				}
 			}
 			else {
 				return string();

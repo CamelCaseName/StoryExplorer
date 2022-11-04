@@ -24,9 +24,6 @@
 
 #include "..\\utils\node.hpp"
 #include "..\\utils\util.hpp"
-#include "..\\layouter\layouter.hpp"
-#include "..\\layouters_impls\dpcw_layouter.hpp"
-#include "..\\layouters_impls\sugiyama_layouter.hpp"
 using namespace util;
 using namespace n_node;
 using namespace std;
@@ -61,8 +58,6 @@ private:
 	std::vector<D2D1_ELLIPSE> node_ellipsi;
 	node_data nodes = { }; //"flat" representation
 	linked_node_data linked_nodes = { }; //"blown up" representation with a complete tree 
-	dpcw_layouter dpcw = {};
-	sugiyama_layouter sugiyama = {};
 	const float radius = 7.0f;
 	const milliseconds target_frame_time_ms = 10ms;
 	const algorithms current_algorithm = algorithms::sugiyama;

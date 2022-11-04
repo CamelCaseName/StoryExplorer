@@ -132,6 +132,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(OutputPath)$(TargetFileName) $(MSBuildStartupDirectory)\Plugins\$(TargetFileName)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>copies the result to the searched plugin folder</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

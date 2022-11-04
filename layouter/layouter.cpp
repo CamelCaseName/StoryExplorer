@@ -1,6 +1,6 @@
 #include "layouter.hpp"
 
-EXPLORERDLL_API layouter::layouter() : type(plugin_type::layouter) {}
+EXPLORERDLL_API layouter::layouter() {}
 
 EXPLORERDLL_API layouter::~layouter() {}
 

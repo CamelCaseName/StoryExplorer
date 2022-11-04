@@ -9,7 +9,7 @@ void cleanup();
 node_data debug_data();
 node_data nodes;
 
-const string plugin_path = ".\\";
+const string plugin_path = std::filesystem::current_path().string() + "\\Plugins";
 plugin_manager plugin_loader = plugin_manager();
 std::vector<class layouter*> layouters;
 std::vector<class parser*> parsers;
@@ -60,9 +60,10 @@ void load_plugins() {
 	namespace fs = std::filesystem; {
 		if (fs::is_directory(plugin_path)) {
 			for (auto& f : fs::directory_iterator(plugin_path)) {
-				if (!f.is_directory()) {
+				if (!f.is_directory() && extension(f.path().string()) == "dll") {
 					plugin_base* plugin = plugin_loader.load_plugin(f.path());
-					switch (plugin->type) {
+					if (plugin == nullptr) continue;
+					switch (plugin->get_type()) {
 					case plugin_type::layouter:
 						layouters.push_back((class layouter*)plugin);
 						break;
@@ -79,6 +80,7 @@ void load_plugins() {
 }
 
 bool startup(wchar_t* cmd_line) {
+	load_plugins();
 	//create instances of the file parsers we have so far
 
 	if (parse(cmd_line)) {

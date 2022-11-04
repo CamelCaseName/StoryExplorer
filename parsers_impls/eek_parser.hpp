@@ -33,6 +33,7 @@ public:
 	eek_parser();
 	~eek_parser();
 	n_node::node_data parse(const string& text);
+	plugin_type get_type();
 	bool is_preferred_extension(const string& extension);
 };
 

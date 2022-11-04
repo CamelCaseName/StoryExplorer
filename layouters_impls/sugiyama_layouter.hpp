@@ -13,6 +13,7 @@ public:
     sugiyama_layouter();
     ~sugiyama_layouter();
     void do_layout();
+    plugin_type get_type();
 };
 
 #undef EXPLORERDLL_EXPORT

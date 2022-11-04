@@ -12,6 +12,8 @@ EXPLORERDLL_API bool csv_parser::is_preferred_extension(const string& extension)
     return false;
 }
 
+EXPLORERDLL_API plugin_type csv_parser::get_type() { return plugin_type::parser; };
+
 csv_parser* instance = NULL;
 
 extern "C" EXPLORERDLL_API plugin_base * create_plugin(void) {

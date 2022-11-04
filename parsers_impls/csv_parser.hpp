@@ -12,6 +12,7 @@ class EXPLORERDLL_API csv_parser : parser {
 private:
 	n_node::node_data data;
 public:
+	plugin_type get_type();
 	csv_parser();
 	~csv_parser();
 	n_node::node_data parse(const string& text);
