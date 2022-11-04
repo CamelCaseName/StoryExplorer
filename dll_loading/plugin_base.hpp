@@ -1,7 +1,8 @@
 #pragma once
 #define EXPLORERDLL_EXPORT
 
-#include "dll_common.h"
+#include "plugin_common.hpp"
+#include <string>
 
 class EXPLORERDLL_API plugin_base {
 private:
@@ -11,9 +12,9 @@ private:
 #pragma warning(pop)
 public:
 	plugin_base(void);
-	virtual ~plugin_base(void) = 0;
-	inline void set_name(std::wstring& _name) { name = _name; };
-	inline std::wstring& get_name(void) { return name; };
+	~plugin_base(void);
+	void set_name(const std::wstring& _name);
+	const std::wstring& get_name(void);
 };
 
 #undef EXPLORERDLL_EXPORT

@@ -1,9 +1,23 @@
 #include "dpcw_layouter.hpp"
 
-dpcw_layouter::dpcw_layouter() {
-	dpcw_layouter::uses_linked = false;
+EXPLORERDLL_API dpcw_layouter::dpcw_layouter(void) {
+	uses_linked = false;
 }
 
-void dpcw_layouter::do_layout() {
+EXPLORERDLL_API dpcw_layouter::~dpcw_layouter(void) {}
 
+EXPLORERDLL_API void dpcw_layouter::do_layout() {
+
+}
+
+
+dpcw_layouter* instance = NULL;
+
+extern "C" EXPLORERDLL_API plugin_base * create_plugin(void) {
+	if (instance == NULL) instance = new dpcw_layouter();
+	return (plugin_base*)instance;
+}
+
+extern "C" EXPLORERDLL_API void delete_plugin(void) {
+	if (instance != NULL) delete instance;
 }

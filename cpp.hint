@@ -3,3 +3,13 @@
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 #define NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Type, __VA_ARGS__) inline void to_json(nlohmann::json& nlohmann_json_j, const Type& nlohmann_json_t) { NLOHMANN_JSON_EXPAND(NLOHMANN_JSON_PASTE(NLOHMANN_JSON_TO, __VA_ARGS__)) } inline void from_json(const nlohmann::json& nlohmann_json_j, Type& nlohmann_json_t) { NLOHMANN_JSON_EXPAND(NLOHMANN_JSON_PASTE(NLOHMANN_JSON_FROM, __VA_ARGS__)) }
 #define NLOHMANN_DEFINE_TYPE_INTRUSIVE(Type, __VA_ARGS__) friend void to_json(nlohmann::json& nlohmann_json_j, const Type& nlohmann_json_t) { NLOHMANN_JSON_EXPAND(NLOHMANN_JSON_PASTE(NLOHMANN_JSON_TO, __VA_ARGS__)) } friend void from_json(const nlohmann::json& nlohmann_json_j, Type& nlohmann_json_t) { NLOHMANN_JSON_EXPAND(NLOHMANN_JSON_PASTE(NLOHMANN_JSON_FROM, __VA_ARGS__)) }
+#define JSON_HEDLEY_NON_NULL(__VA_ARGS__) __attribute__((__nonnull__(__VA_ARGS__)))
+#define JSON_HEDLEY_NON_NULL(__VA_ARGS__)
+#define JSON_HEDLEY_HAS_WARNING(warning) __has_warning(warning)
+#define JSON_HEDLEY_HAS_WARNING(warning) (0)
+#define JSON_HEDLEY_UNLIKELY(expr) __builtin_expect (!!(expr), 0 )
+#define JSON_HEDLEY_UNLIKELY(expr) __builtin_expect(!!(expr), 0)
+#define JSON_HEDLEY_UNLIKELY(expr) (!!(expr))
+#define NLOHMANN_BASIC_JSON_TPL_DECLARATION
+#define EXPLORERDLL_API __declspec(dllexport)
+#define EXPLORERDLL_API __declspec(dllimport)

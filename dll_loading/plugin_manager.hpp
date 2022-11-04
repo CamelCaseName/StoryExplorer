@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dll_common.h"
+#include "plugin_common.hpp"
 #include "plugin_base.hpp"
 #include <map>
 #include <string>
@@ -8,7 +8,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-class EXPLORERplugin_API plugin_manager {
+class EXPLORERDLL_API plugin_manager {
 public:
     plugin_manager();
     ~plugin_manager();

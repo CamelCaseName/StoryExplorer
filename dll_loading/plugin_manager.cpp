@@ -1,4 +1,5 @@
 #include "plugin_manager.hpp"
+#include <iostream>
 
 // Define the prototype for a function that should exist in the plugin
 
@@ -14,14 +15,14 @@ plugin_manager::~plugin_manager() {}
 
 plugin_base* plugin_manager::load_plugin(const std::wstring& plugin_name) {
     plugin_base* plugin = NULL;
-    plugins::iterator iter = plugins.find(plugin_name);
+    plugin_map::iterator iter = plugins.find(plugin_name);
     if (iter == plugins.end())
     {
         // Try to load the plugin library
         HMODULE h_module = LoadLibraryW(plugin_name.c_str());
         if (h_module != NULL)
         {
-            create_plugin_t create_plugin = (create_plugin_t)GetProcAddress(h_module, "create_plugin_t");
+            create_plugin_t create_plugin = (create_plugin_t)GetProcAddress(h_module, "create_plugin");
             if (create_plugin != NULL)
             {
                 // Invoke the function to get the plugin from the DLL.

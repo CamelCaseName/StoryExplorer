@@ -3,7 +3,7 @@
 //export this to a dll
 #define EXPLORERDLL_EXPORT
 #include "..\\utils\node.hpp"
-#include "..\\dll_loading\dll_common.h"
+#include "..\\dll_loading\plugin_common.hpp"
 #include "..\\dll_loading\plugin_base.hpp"
 
 class EXPLORERDLL_API layouter : plugin_base{
@@ -14,18 +14,13 @@ public:
 
 	bool uses_linked = false;
 
-	inline void set_nodes(n_node::node_data& _nodes) {
-		nodes = _nodes;
-		if (uses_linked) {
-			linked_nodes = (n_node::linked_node_data)_nodes;
-		}
-	}
+	void set_nodes(n_node::node_data& _nodes);
 
 	virtual void do_layout() = 0;
 
-	layouter();
+	layouter(void);
 
-	~layouter();
+	~layouter(void);
 };
 
 #undef EXPLORERDLL_EXPORT

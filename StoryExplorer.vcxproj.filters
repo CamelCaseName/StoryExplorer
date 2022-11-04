@@ -54,13 +54,7 @@
     <ClInclude Include="utils\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="layouter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dpcw_layouter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sugiyama_layouter.hpp">
+    <ClInclude Include="dll_loading\plugin_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,19 +65,16 @@
     <ClCompile Include="settings\settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="parsers\eek_parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main\StoryExplorer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cmd_parser\command_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="layouters\dpcw_layouter.cpp">
+    <ClCompile Include="parsers_impls\eek_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="layouters\sugiyama_layouter.cpp">
+    <ClCompile Include="dll_loading\plugin_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
