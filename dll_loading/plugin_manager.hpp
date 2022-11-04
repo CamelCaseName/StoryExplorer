@@ -1,7 +1,10 @@
 #pragma once
+#ifdef EXPLORERDLL_EXPORT
+#undef EXPLORERDLL_EXPORT
+#endif // EXPLORERDLL_EXPORT
 
-#include "plugin_common.hpp"
 #include "plugin_base.hpp"
+#include "plugin_common.hpp"
 #include <map>
 #include <string>
 

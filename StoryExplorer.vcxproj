@@ -22,8 +22,6 @@
     <ClInclude Include="cmd_parser\command_parser.hpp" />
     <ClInclude Include="dll_loading\plugin_manager.hpp" />
     <ClInclude Include="main\StoryExplorer.hpp" />
-    <ClInclude Include="parsers\eek_parser.hpp" />
-    <ClInclude Include="parsers\parser.hpp" />
     <ClInclude Include="settings\settings.hpp" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="utils\color.hpp" />
@@ -38,7 +36,6 @@
     <ClCompile Include="cmd_parser\command_parser.cpp" />
     <ClCompile Include="dll_loading\plugin_manager.cpp" />
     <ClCompile Include="main\StoryExplorer.cpp" />
-    <ClCompile Include="parsers_impls\eek_parser.cpp" />
     <ClCompile Include="settings\settings.cpp" />
     <ClCompile Include="windows\renderer.cpp" />
   </ItemGroup>
@@ -48,6 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="plugins\plugin_base\plugin_base.vcxproj">
+      <Project>{0ef6fa7f-2147-463c-84ec-3d285a4699e9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

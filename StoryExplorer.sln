@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		layouter\layouter.cpp = layouter\layouter.cpp
 		layouter\layouter.hpp = layouter\layouter.hpp
+		parser\parser.cpp = parser\parser.cpp
+		parser\parser.hpp = parser\parser.hpp
 		dll_loading\plugin_common.hpp = dll_loading\plugin_common.hpp
 	EndProjectSection
 EndProject

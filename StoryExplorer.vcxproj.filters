@@ -33,12 +33,6 @@
     <ClInclude Include="settings\settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="parsers\eek_parser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="parsers\parser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="main\StoryExplorer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,9 +63,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cmd_parser\command_parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="parsers_impls\eek_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dll_loading\plugin_manager.cpp">

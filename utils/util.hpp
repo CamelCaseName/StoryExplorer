@@ -1,9 +1,9 @@
-#ifndef UTILS_H
-#define UTILS_H
+#pragma once
 #include <string>
 #include <codecvt>
 #include <locale>
 #include <filesystem> // C++17#
+#include <fstream>
 #include "point.hpp"
 //graphics header, linked as library search record
 #include <d2d1.h>
@@ -102,5 +102,3 @@ namespace util {
 		}
 	};
 }
-
-#endif // !UTILS_H
