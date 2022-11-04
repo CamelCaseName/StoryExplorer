@@ -15,12 +15,13 @@
 class EXPLORERDLL_API parser : plugin_base {
 private:
 public:
+	const plugin_type type;
 	parser();
 	~parser();
 	//pure virtual parse method definition to enable inheritance and have the framework still work with the rest
-	n_node::node_data parse(const std::string& text);
+	virtual n_node::node_data parse(const std::string& text) = 0;
 	//string with the file extenstion this parser wants to work with. can also be a custom key
-	bool is_preferred_extension(const std::string& extension);
+	virtual bool is_preferred_extension(const std::string& extension) = 0;
 };
  
 #undef EXPLORERDLL_EXPORT

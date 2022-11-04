@@ -9,14 +9,18 @@ void cleanup();
 node_data debug_data();
 node_data nodes;
 
-std::vector<parser*> parsers;
+const string plugin_path = ".\\";
+plugin_manager plugin_loader = plugin_manager();
+std::vector<class layouter*> layouters;
+std::vector<class parser*> parsers;
+
 //global window instance
 main_window win;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR    lpCmdLine,
-	_In_ int       nCmdShow) {
+					  _In_opt_ HINSTANCE hPrevInstance,
+					  _In_ LPWSTR    lpCmdLine,
+					  _In_ int       nCmdShow) {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 
 
@@ -50,12 +54,32 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 void cleanup() {
 	cmd_cleanup();
+}
 
+void load_plugins() {
+	namespace fs = std::filesystem; {
+		if (fs::is_directory(plugin_path)) {
+			for (auto& f : fs::directory_iterator(plugin_path)) {
+				if (!f.is_directory()) {
+					plugin_base* plugin = plugin_loader.load_plugin(f.path());
+					switch (plugin->type) {
+					case plugin_type::layouter:
+						layouters.push_back((class layouter*)plugin);
+						break;
+					case plugin_type::parser:
+						parsers.push_back((class parser*)plugin);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 bool startup(wchar_t* cmd_line) {
 	//create instances of the file parsers we have so far
-	parsers.push_back((parser*)(new eek_parser()));
 
 	if (parse(cmd_line)) {
 

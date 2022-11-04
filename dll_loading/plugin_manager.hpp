@@ -1,7 +1,4 @@
 #pragma once
-#ifdef EXPLORERDLL_EXPORT
-#undef EXPLORERDLL_EXPORT
-#endif // EXPLORERDLL_EXPORT
 
 #include "plugin_base.hpp"
 #include "plugin_common.hpp"
@@ -11,7 +8,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-class EXPLORERDLL_API plugin_manager {
+class plugin_manager {
 public:
     plugin_manager();
     ~plugin_manager();

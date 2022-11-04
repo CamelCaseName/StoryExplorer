@@ -9,6 +9,8 @@
 class EXPLORERDLL_API layouter : plugin_base{
 private:
 public:
+	const plugin_type type;
+
 	n_node::node_data nodes = {};
 	n_node::linked_node_data linked_nodes = {};
 
