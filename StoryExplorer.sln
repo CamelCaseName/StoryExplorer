@@ -12,26 +12,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StoryExplorer", "StoryExplo
 		{9A0C6A04-859C-4D45-957E-108CC2C257D1} = {9A0C6A04-859C-4D45-957E-108CC2C257D1}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csv_parser", "plugins\csv_parser\csv_parser.vcxproj", "{20D242D4-D21D-46FC-BF85-3A24BE9EF35A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EF6FA7F-2147-463C-84EC-3D285A4699E9} = {0EF6FA7F-2147-463C-84EC-3D285A4699E9}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dpcw_layouter", "plugins\dpcw_layouter\dpcw_layouter.vcxproj", "{9A0C6A04-859C-4D45-957E-108CC2C257D1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EF6FA7F-2147-463C-84EC-3D285A4699E9} = {0EF6FA7F-2147-463C-84EC-3D285A4699E9}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eek_parser", "plugins\eek_parser\eek_parser.vcxproj", "{438C4FAB-5AB4-4457-BB4D-BA125C2FCA67}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EF6FA7F-2147-463C-84EC-3D285A4699E9} = {0EF6FA7F-2147-463C-84EC-3D285A4699E9}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sugiyama_layouter", "plugins\sugiyama_layouter\sugiyama_layouter.vcxproj", "{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EF6FA7F-2147-463C-84EC-3D285A4699E9} = {0EF6FA7F-2147-463C-84EC-3D285A4699E9}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ABD0D1A6-F4A3-43F4-A3F4-1CBAF80A62F1}"
 	ProjectSection(SolutionItems) = preProject
 		layouter\layouter.cpp = layouter\layouter.cpp
@@ -41,7 +21,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		dll_loading\plugin_common.hpp = dll_loading\plugin_common.hpp
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin_base", "plugins\plugin_base\plugin_base.vcxproj", "{0EF6FA7F-2147-463C-84EC-3D285A4699E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csv_parser", "plugin_projects\csv_parser\csv_parser.vcxproj", "{20D242D4-D21D-46FC-BF85-3A24BE9EF35A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dpcw_layouter", "plugin_projects\dpcw_layouter\dpcw_layouter.vcxproj", "{9A0C6A04-859C-4D45-957E-108CC2C257D1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eek_parser", "plugin_projects\eek_parser\eek_parser.vcxproj", "{438C4FAB-5AB4-4457-BB4D-BA125C2FCA67}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin_base", "plugin_projects\plugin_base\plugin_base.vcxproj", "{0EF6FA7F-2147-463C-84EC-3D285A4699E9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sugiyama_layouter", "plugin_projects\sugiyama_layouter\sugiyama_layouter.vcxproj", "{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,14 +71,6 @@ Global
 		{438C4FAB-5AB4-4457-BB4D-BA125C2FCA67}.Release|x64.Build.0 = Release|x64
 		{438C4FAB-5AB4-4457-BB4D-BA125C2FCA67}.Release|x86.ActiveCfg = Release|Win32
 		{438C4FAB-5AB4-4457-BB4D-BA125C2FCA67}.Release|x86.Build.0 = Release|Win32
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x64.ActiveCfg = Debug|x64
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x64.Build.0 = Debug|x64
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x86.ActiveCfg = Debug|Win32
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x86.Build.0 = Debug|Win32
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x64.ActiveCfg = Release|x64
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x64.Build.0 = Release|x64
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x86.ActiveCfg = Release|Win32
-		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x86.Build.0 = Release|Win32
 		{0EF6FA7F-2147-463C-84EC-3D285A4699E9}.Debug|x64.ActiveCfg = Debug|x64
 		{0EF6FA7F-2147-463C-84EC-3D285A4699E9}.Debug|x64.Build.0 = Debug|x64
 		{0EF6FA7F-2147-463C-84EC-3D285A4699E9}.Debug|x86.ActiveCfg = Debug|Win32
@@ -99,6 +79,14 @@ Global
 		{0EF6FA7F-2147-463C-84EC-3D285A4699E9}.Release|x64.Build.0 = Release|x64
 		{0EF6FA7F-2147-463C-84EC-3D285A4699E9}.Release|x86.ActiveCfg = Release|Win32
 		{0EF6FA7F-2147-463C-84EC-3D285A4699E9}.Release|x86.Build.0 = Release|Win32
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x64.ActiveCfg = Debug|x64
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x64.Build.0 = Debug|x64
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x86.ActiveCfg = Debug|Win32
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Debug|x86.Build.0 = Debug|Win32
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x64.ActiveCfg = Release|x64
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x64.Build.0 = Release|x64
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x86.ActiveCfg = Release|Win32
+		{5DB752C4-BEBD-462A-9CF0-694C5DD3607E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

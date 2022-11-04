@@ -46,11 +46,6 @@
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="plugins\plugin_base\plugin_base.vcxproj">
-      <Project>{0ef6fa7f-2147-463c-84ec-3d285a4699e9}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
