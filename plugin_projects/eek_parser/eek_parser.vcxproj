@@ -123,10 +123,10 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutputPath)$(TargetFileName) $(MSBuildStartupDirectory)\Plugins\$(TargetFileName)</Command>
+      <Command>copy $(TargetPath) $(SolutionDir)\Plugins\$(TargetFileName)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>copies the result to the searched plugin folder</Message>
+      <Message>copies the dll</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,6 +150,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) $(SolutionDir)\Plugins\$(TargetFileName)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>copies the dll</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\plugin_base\plugin_base.vcxproj">

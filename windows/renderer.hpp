@@ -24,6 +24,7 @@
 
 #include "..\\utils\node.hpp"
 #include "..\\utils\util.hpp"
+#include "../layouter/layouter.hpp"
 using namespace util;
 using namespace n_node;
 using namespace std;
@@ -60,7 +61,7 @@ private:
 	linked_node_data linked_nodes = { }; //"blown up" representation with a complete tree 
 	const float radius = 7.0f;
 	const milliseconds target_frame_time_ms = 10ms;
-	const algorithms current_algorithm = algorithms::sugiyama;
+	const algorithms current_algorithm = algorithms::dpcw;
 	float x_offset = 0.0f;
 	float y_offset = 0.0f;
 	int layout_iterations = 0;
@@ -76,6 +77,8 @@ private:
 	char* duration_text = (char*)calloc(debug_buffer_size, sizeof(char*));
 	thread fps_update;
 	thread node_layout_update;
+	class layouter* current_layouter = nullptr;
+	std::vector<class layouter*> layouter_impls;
 
 	void calculate_layout();
 	void update_node_ellipsi();
@@ -103,12 +106,14 @@ public:
 	main_window() : factory(NULL), render_target(NULL), node_brush(NULL) {
 	}
 
+	//todo move impls to their respective dll and simplify interface here
 	void fps_updater(milliseconds target_frametime);
 	void node_layout_updater(milliseconds target_frametime);
 	bool nodes_updated() { return nodes_updated_main; }
 	void set_nodes(const node_data& _nodes);
 	void layout_nodes();
-	PCWSTR  class_name() const { return L"Circle Window Class"; }
+	inline void set_layouters(const std::vector<class layouter*> _layouters) { layouter_impls = _layouters; }
+	PCWSTR  class_name() const { return L"Story Explorer Window Class"; }
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 };

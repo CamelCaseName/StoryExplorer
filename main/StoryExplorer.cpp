@@ -5,8 +5,8 @@
 bool startup(wchar_t*);
 void cleanup();
 node_data debug_data();
-node_data nodes;
 
+node_data nodes;
 const string plugin_path = std::filesystem::current_path().string() + "\\Plugins";
 plugin_manager plugin_loader = plugin_manager();
 std::vector<class layouter*> layouters;
@@ -25,7 +25,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//test for commands
 	//and prepare first image to be displayed
-	startup(lpCmdLine);
+	if (!startup(lpCmdLine)) {
+		return 0;
+	}
 
 	if (!win.create(L"StoryExplorer", WS_OVERLAPPEDWINDOW)) {
 		return 0;
@@ -95,7 +97,6 @@ bool startup(wchar_t* cmd_line) {
 				nodes = p->parse(text);
 
 				nodes = debug_data();
-
 
 				return true;
 			}

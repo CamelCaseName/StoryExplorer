@@ -2,6 +2,7 @@
 //graphics header, linked as library search record
 #pragma warning(push, 0)
 #include <d2d1.h>
+#include <math.h>
 #pragma comment(lib, "d2d1")
 #pragma warning(pop)
 

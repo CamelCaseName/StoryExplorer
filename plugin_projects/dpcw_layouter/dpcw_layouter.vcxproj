@@ -123,7 +123,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutputPath)$(TargetFileName) $(MSBuildStartupDirectory)\Plugins\$(TargetFileName)</Command>
+      <Command>copy $(TargetPath) $(SolutionDir)\Plugins\$(TargetFileName)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>copies the result to the searched plugin folder</Message>
@@ -150,6 +150,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) $(SolutionDir)\Plugins\$(TargetFileName)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\layouters_impls\dpcw_layouter.hpp" />

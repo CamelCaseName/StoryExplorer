@@ -323,26 +323,25 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 					if (distance < 0.1f) {
 						current->position + 10;
 					}
-					else {
-						point rep = (repulsion * difference) / (current->weight * powf(distance, 2));
 
-						//check next edge we have in our list
-						//if we have a connection from us to the node we are locking at right now, aka child 
-						bool connected = false;
-						for (auto edge : data.edges) {
-							if ((edge->node_1 == current && edge->node_2 == other) || (edge->node_1 == other && edge->node_2 == current)) {
-								connected = true;
-								break;
-							}
+					point rep = (repulsion * difference) / (current->weight * powf(distance, 2));
+
+					//check next edge we have in our list
+					//if we have a connection from us to the node we are locking at right now, aka child 
+					bool connected = false;
+					for (auto edge : data.edges) {
+						if ((edge->node_1 == current && edge->node_2 == other) || (edge->node_1 == other && edge->node_2 == current)) {
+							connected = true;
+							break;
 						}
-						if (connected) {
-							//so we can now do the attraction force
-							//formula: c_spring * log(distance / length) * vec(p_u->p_v) - f_rep
-							node_forces[index] += (attraction * logf(distance / length) * (difference / distance)) - rep;
-						}
-						else {
-							node_forces[index] -= rep;
-						}
+					}
+					if (connected) {
+						//so we can now do the attraction force
+						//formula: c_spring * log(distance / length) * vec(p_u->p_v) - f_rep
+						node_forces[index] += (attraction * logf(distance / length) * (difference / distance)) - rep;
+					}
+					else {
+						node_forces[index] -= rep;
 					}
 				}
 				//"gravity"
