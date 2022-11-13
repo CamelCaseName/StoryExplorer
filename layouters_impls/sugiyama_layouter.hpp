@@ -10,6 +10,7 @@
 class EXPLORERDLL_API sugiyama_layouter : public layouter {
 private:
 public:
+    inline const std::string* get_layout_name_short() { return new std::string("sugiyama"); }
     sugiyama_layouter();
     ~sugiyama_layouter();
     void do_layout();

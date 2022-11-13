@@ -38,6 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	//give the renderer our nodes
 	win.set_nodes(nodes);
+	win.set_layouters(layouters, "dpcw");
 
 	MSG msg = {};
 	// Main message loop:

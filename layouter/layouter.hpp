@@ -18,6 +18,8 @@ public:
 
 	virtual void do_layout() = 0;
 
+	virtual const std::string* get_layout_name_short() = 0;
+
 	layouter(void);
 
 	~layouter(void);

@@ -123,6 +123,19 @@ void main_window::layout_nodes() {
 	layout_nodes(current_algorithm); //eventually get algo from settings
 }
 
+void main_window::set_layouters(const std::vector<class layouter*> _layouters, const std::string& layout_name_short)
+{
+	layouter_impls = _layouters; 
+	for (auto layout : layouter_impls)
+	{
+		if (*(layout->get_layout_name_short()) == layout_name_short)
+		{
+			current_layouter = layout;
+			return;
+		}
+	}
+}
+
 void main_window::do_dpcw_nodes() {
 	//todo dpcw implementation
 	float max_edge_weight = 0.0f;
@@ -220,7 +233,7 @@ void main_window::do_sugiyama_nodes() {
 	// 
 }
 
-void main_window::sugiyama_extend_links(linked_node_data& _linked_nodes, layer_map layers) {
+void main_window::sugiyama_extend_links(const linked_node_data& _linked_nodes, layer_map layers) {
 	//    For edges e = (u, v) with span(e) > 1 and for which the endpoints u and
 //    v lie on layers Liand Lj, we replace edge e by a chain of dummy vertices
 //	  u = di
@@ -330,7 +343,8 @@ void main_window::do_force_directed_layout(const node_data& data, int max_iterat
 					//if we have a connection from us to the node we are locking at right now, aka child 
 					bool connected = false;
 					for (auto edge : data.edges) {
-						if ((edge->node_1 == current && edge->node_2 == other) || (edge->node_1 == other && edge->node_2 == current)) {
+						if ((edge->node_1 == current && edge->node_2 == other) 
+							|| (edge->node_1 == other && edge->node_2 == current)) {
 							connected = true;
 							break;
 						}

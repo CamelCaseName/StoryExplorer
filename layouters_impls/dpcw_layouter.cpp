@@ -6,7 +6,7 @@ EXPLORERDLL_API dpcw_layouter::dpcw_layouter(void) {
 
 EXPLORERDLL_API plugin_type dpcw_layouter::get_type() { return plugin_type::layouter; };
 
-EXPLORERDLL_API dpcw_layouter::~dpcw_layouter(void) {}
+EXPLORERDLL_API dpcw_layouter::~dpcw_layouter(void) { free((void*)get_layout_name_short()); }
 
 EXPLORERDLL_API void dpcw_layouter::do_layout() {
 

@@ -2,7 +2,7 @@
 
 EXPLORERDLL_API sugiyama_layouter::sugiyama_layouter() {}
 
-EXPLORERDLL_API sugiyama_layouter::~sugiyama_layouter() {}
+EXPLORERDLL_API sugiyama_layouter::~sugiyama_layouter() { free((void*)get_layout_name_short()); }
 
 EXPLORERDLL_API void sugiyama_layouter::do_layout() {
 

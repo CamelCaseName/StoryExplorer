@@ -94,7 +94,7 @@ private:
 	void paint_edges();
 	void thread_master();
 	void resize(); 
-	void sugiyama_extend_links(linked_node_data& linked_nodes, layer_map layers);
+	void sugiyama_extend_links(const linked_node_data& linked_nodes, layer_map layers);
 	int sugiyama_edge_span(linked_node_edge* _edge, layer_map _layers);
 	void do_force_directed_layout(const node_data& data, int max_iterations);
 	int sugiyama_edge_span(linked_node* _node1, linked_node* _node2, layer_map _layers);
@@ -112,7 +112,7 @@ public:
 	bool nodes_updated() { return nodes_updated_main; }
 	void set_nodes(const node_data& _nodes);
 	void layout_nodes();
-	inline void set_layouters(const std::vector<class layouter*> _layouters) { layouter_impls = _layouters; }
+	void set_layouters(const std::vector<class layouter*> _layouters, const std::string& layout_name_short);
 	PCWSTR  class_name() const { return L"Story Explorer Window Class"; }
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
